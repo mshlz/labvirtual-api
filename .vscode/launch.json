@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "lab-api",
+            "type": "node",
+            "request": "attach",
+            "protocol": "inspector",
+            "port": 6666,
+            "cwd": "${workspaceFolder}",
+            "restart": true
+        }
+    ]
+}
