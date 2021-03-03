@@ -1,11 +1,11 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
+import 'reflect-metadata'
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
-
-import routes from './routes'
+import { useExpressServer } from 'routing-controllers'
 
 const createApp = async () => {
     const app = express()
@@ -14,7 +14,11 @@ const createApp = async () => {
     app.use(cors())
     app.use(express.json())
 
-    app.use(routes)
+    useExpressServer(app, {
+        controllers: [
+            __dirname + '/controllers/*.[jt]s'
+        ]
+    })
 
     return app
 }
