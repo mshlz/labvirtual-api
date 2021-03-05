@@ -19,8 +19,12 @@ const createApp = async () => {
         app.use(express.json())
 
         useExpressServer(app, {
+            defaultErrorHandler: false,
             controllers: [
                 __dirname + '/controllers/*.[jt]s'
+            ],
+            middlewares: [
+                __dirname + '/middlewares/*.[jt]s'
             ]
         })
 

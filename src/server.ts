@@ -2,7 +2,8 @@ import { createApp } from "./app";
 
 const startServer = async () => {
     const app = await createApp()
-    app.listen(process.env.PORT || 3001, () => console.log(`Server started at ${new Date().toLocaleString('pt-BR')}`))
+    const PORT = process.env.PORT || 3001
+    app.listen(PORT, () => console.log(`Server started at ${new Date().toLocaleString('pt-BR')}, Listen ${PORT}`))
 }
 
 startServer()
