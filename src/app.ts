@@ -28,6 +28,11 @@ const createApp = async () => {
             ]
         })
 
+        app.use('*', (req, res, next) => {
+            if (res.headersSent) return next()
+            return res.status(404).json({ code: 404, message: 'Not Found' })
+        })
+
         return app
 
     } catch (err) {
