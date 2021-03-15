@@ -5,7 +5,11 @@ interface IUser {
     _id?: ObjectId
     name: string
     email: string
+    phone: string
+    birthdate: string
     password: string
+    school: string
+    course: string
     type: string
     meta: object
     checkPassword: (p: string) => boolean
@@ -16,6 +20,10 @@ const UserSchema = new Schema<IUser & Document>({
     name: String,
     email: { type: String, unique: true },
     password: String,
+    phone: String,
+    birthdate: String,
+    school: String,
+    course: String,
     type: String,
     meta: Object
 }, { toObject: { versionKey: false, getters: true } })
@@ -41,8 +49,12 @@ UserSchema.methods.toPublicJSON = function () {
         id: this.id,
         name: this.name,
         email: this.email,
+        phone: this.phone,
+        birthdate: this.birthdate,
+        school: this.school,
+        course: this.course,
         type: this.type,
-        meta: this.type,
+        meta: this.meta,
     }
 }
 
