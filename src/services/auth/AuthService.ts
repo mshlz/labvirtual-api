@@ -1,30 +1,37 @@
-import * as jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { UnauthorizedError } from 'routing-controllers'
 import { JWT_SECRET } from '../../config/env'
+import { Admin, IAdmin } from '../../models/Admin'
 import { IUser, User } from '../../models/User'
 
-interface LoginData {
-    email: string
-    password: string
-    type: string
-}
-
 export class AuthService {
-    public async login(data: LoginData): Promise<{ token: string }> {
+    public async login(data): Promise<{ token: string, user: object }> {
         // validate
-        const user = await User.findOne({ email: data.email, type: data.type })
+        const user = await User.findOne({ email: data.email })
         console.log(user)
         if (!user || !user.checkPassword(data.password)) {
-            throw new UnauthorizedError('Authentication Error')
+            throw new UnauthorizedError('Email / Senha incorretos')
         }
 
-        const token = jwt.sign({ user: user.id, type: data.type }, JWT_SECRET, { expiresIn: '2h' })
+        const token = jwt.sign({ user: user.id, type: user.type }, JWT_SECRET, { expiresIn: '2h' })
 
-        return { token }
+        return {
+            token, user: {
+                name: user.name,
+                email: user.email,
+                type: user.type
+            }
+        }
     }
 
-    public async register(data): Promise<IUser | any> {
-        const user = await User.create(data)
-        return true
+    public async register(data): Promise<IUser | IAdmin> {
+        let user = null
+        if (data.type === 'admin') {
+            user = await Admin.create(data)
+        }
+        else {
+            user = await User.create(data)
+        }
+        return user
     }
 }

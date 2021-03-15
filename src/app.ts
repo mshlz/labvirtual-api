@@ -6,7 +6,7 @@ import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import { useExpressServer } from 'routing-controllers'
-import { connectDB } from './plugins/database/connection'
+import { connectDB } from './utils/database/connection'
 import { MONGODB_URI } from './config/env'
 
 const createApp = async () => {

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ExpressErrorMiddlewareInterface, ExpressMiddlewareInterface, Middleware } from "routing-controllers";
+import { ExpressErrorMiddlewareInterface, Middleware } from "routing-controllers";
 
 @Middleware({ type: 'after' })
 export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
@@ -8,6 +8,6 @@ export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
 
         return response
             .status(error.httpCode || 500)
-            .json({ code: error.httpCode, name: error.name, message: error.message })
+            .json({ code: error.httpCode, name: error.name, message: error.message, errors: error.errors })
     }
 }

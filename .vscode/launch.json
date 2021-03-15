@@ -2,7 +2,27 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "lab-api",
+            "name": "lab-api tsc",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/dist/server.js",
+            "outFiles": [
+                "${workspaceFolder}/dist/src/**/*.js"
+            ],
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "name": "lab-api ts-node",
+            "type": "node",
+            "request": "launch",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "program": "${workspaceFolder}/src/server.ts"
+        },
+        {
+            "name": "lab-api tsnd",
             "type": "node",
             "request": "attach",
             "protocol": "inspector",

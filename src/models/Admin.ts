@@ -1,15 +1,17 @@
 import { Document, model, Schema } from "mongoose";
 
-interface IAdmin extends Document {
+interface IAdmin {
     login: string
     password: string
+    type: string
 }
 
-const AdminSchema = new Schema({
+const AdminSchema = new Schema<IAdmin & Document>({
     login: String,
-    password: String
+    password: String,
+    type: String
 })
 
-const Admin = model<IAdmin>('Admin', AdminSchema)
+const Admin = model('Admin', AdminSchema)
 
 export { Admin, IAdmin }

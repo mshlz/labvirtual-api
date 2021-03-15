@@ -1,29 +1,39 @@
-import { ValidationError } from "class-validator";
-import { Body, ForbiddenError, HttpError, JsonController, Post, Res } from "routing-controllers";
+import { Body, Get, HttpError, JsonController, Post } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { User } from "../models/User";
 import { AuthService } from "../services/auth/AuthService";
+import { Validate, Yup } from "../utils/validator/Validator";
 
 @JsonController('/auth/')
 export class AuthController {
     @Post('login')
+    @Validate({
+        email: Yup.string().required().email(),
+        password: Yup.string().required()
+    })
     public async login(@Body() data: any): Promise<ApiResponse> {
-        const requiredMissing = ['email', 'password', 'type'].some(e => !data[e])
-        if (requiredMissing || !['teacher', 'student'].includes(data.type)) {
-            throw new HttpError(422, 'Validation Error ')
-        }
         const service = new AuthService()
         return { data: await service.login(data) }
     }
 
     @Post('register')
+    @Validate({
+        name: Yup.string().required(),
+        email: Yup.string().required().email(),
+        password: Yup.string().required(),
+        type: Yup.string().required().oneOf(['teacher', 'student'])
+    })
     public async register(@Body() data: any): Promise<ApiResponse> {
-        // body validation
-        const requiredMissing = ['name', 'email', 'password', 'type'].some(e => !data[e])
-        if (requiredMissing || !['teacher', 'student'].includes(data.type)) {
-            throw new HttpError(422, 'Validation Error ')
-        }
         const service = new AuthService()
         return { data: await service.register(data) }
+    }
+
+    // TODO: rm only for test
+    @Get('users')
+    public async users(@Body() data: any): Promise<ApiResponse> {
+        // body
+        return {
+            data: await User.find()
+        }
     }
 }
