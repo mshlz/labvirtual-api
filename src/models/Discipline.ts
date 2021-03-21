@@ -1,4 +1,5 @@
 import { Document, model, Schema } from "mongoose";
+import { v4 } from 'uuid'
 
 interface IDiscipline {
     name: string
@@ -7,6 +8,10 @@ interface IDiscipline {
 }
 
 const DisciplineSchema = new Schema<IDiscipline & Document>({
+    _id: {
+        type: String,
+        default: v4()
+    },
     name: String,
     code: String,
     metadata: Object

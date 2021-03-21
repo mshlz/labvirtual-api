@@ -1,5 +1,6 @@
 import { Document, model, ObjectId, Schema } from "mongoose";
 import bcrypt from 'bcrypt'
+import { v4 } from "uuid";
 
 interface IUser {
     _id?: ObjectId
@@ -17,6 +18,10 @@ interface IUser {
 }
 
 const UserSchema = new Schema<IUser & Document>({
+    _id: {
+        type: String,
+        default: v4()
+    },
     name: String,
     email: { type: String, unique: true },
     password: String,

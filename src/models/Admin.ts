@@ -1,4 +1,5 @@
 import { Document, model, Schema } from "mongoose";
+import { v4 } from "uuid";
 
 interface IAdmin {
     login: string
@@ -7,6 +8,10 @@ interface IAdmin {
 }
 
 const AdminSchema = new Schema<IAdmin & Document>({
+    _id: {
+        type: String,
+        default: v4()
+    },
     login: String,
     password: String,
     type: String

@@ -1,4 +1,5 @@
 import { Document, model, Schema } from "mongoose";
+import { v4 } from "uuid";
 import { IDiscipline } from "./Discipline";
 import { IUser } from "./User";
 
@@ -11,6 +12,10 @@ interface IClass {
 }
 
 const ClassSchema = new Schema<IClass & Document>({
+    _id: {
+        type: String,
+        default: v4()
+    },
     name: String,
     code: String,
     teacher: { type: Schema.Types.ObjectId, ref: 'User' },
