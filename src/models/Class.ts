@@ -18,6 +18,12 @@ const ClassSchema = new Schema<IClass & Document>({
     students: [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
+ClassSchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) { delete ret._id }
+})
+
 const Class = model('Class', ClassSchema)
 
 export { Class, IClass }

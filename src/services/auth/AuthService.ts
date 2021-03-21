@@ -32,6 +32,6 @@ export class AuthService {
         else {
             user = await User.create(data)
         }
-        return user
+        return user.toPublicJSON()
     }
 }

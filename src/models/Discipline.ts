@@ -12,6 +12,12 @@ const DisciplineSchema = new Schema<IDiscipline & Document>({
     metadata: Object
 })
 
+DisciplineSchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) { delete ret._id }
+});
+
 const Discipline = model('Discipline', DisciplineSchema)
 
 export { Discipline, IDiscipline }

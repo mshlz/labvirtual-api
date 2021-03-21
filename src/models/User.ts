@@ -58,6 +58,12 @@ UserSchema.methods.toPublicJSON = function () {
     }
 }
 
+UserSchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) { delete ret._id }
+})
+
 const User = model('User', UserSchema)
 
 export { User, IUser }
