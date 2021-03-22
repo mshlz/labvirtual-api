@@ -14,13 +14,13 @@ interface IClass {
 const ClassSchema = new Schema<IClass & Document>({
     _id: {
         type: String,
-        default: v4()
+        default: v4
     },
     name: String,
     code: String,
-    teacher: { type: Schema.Types.ObjectId, ref: 'User' },
-    discipline: { type: Schema.Types.ObjectId, ref: 'Discipline' },
-    students: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    teacher: { type: String, ref: 'User' },
+    discipline: { type: String, ref: 'Discipline' },
+    students: [{ type: String, ref: 'User' }]
 })
 
 ClassSchema.set('toJSON', {

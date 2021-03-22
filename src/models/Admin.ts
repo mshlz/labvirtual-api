@@ -10,7 +10,7 @@ interface IAdmin {
 const AdminSchema = new Schema<IAdmin & Document>({
     _id: {
         type: String,
-        default: v4()
+        default: v4
     },
     login: String,
     password: String,

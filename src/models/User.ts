@@ -20,7 +20,7 @@ interface IUser {
 const UserSchema = new Schema<IUser & Document>({
     _id: {
         type: String,
-        default: v4()
+        default: v4
     },
     name: String,
     email: { type: String, unique: true },
