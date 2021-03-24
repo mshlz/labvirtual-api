@@ -10,6 +10,8 @@ export class AuthMiddleware implements ExpressMiddlewareInterface {
     use(request: Request, response: any, next: (err?: any) => any) {
         if (this.skipRoutes.includes(request.url)) return next()
 
+        console.log('[ip-log]', request.headers['X-Forwarded-For'])
+
         const token = (request.headers.authorization || '').replace('Bearer ', '')
 
         try {
