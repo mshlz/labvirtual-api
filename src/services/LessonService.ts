@@ -1,25 +1,25 @@
-import { Subject } from "../models/Subject"
+import { Lesson } from "../models/Lesson"
 
-export class SubjectService {
+export class LessonService {
     public static async create(data): Promise<any> {
-        const result = await new Subject(data).save()
+        const result = await new Lesson(data).save()
 
         return result.toJSON()
     }
 
     public static async list(): Promise<any> {
-        const result = await Subject.find({}).populate('discipline', 'id name')
+        const result = await Lesson.find({}).populate('discipline', 'id name').populate('subject', 'id name')
 
         return result?.map(e => e.toJSON())
     }
 
     public static async get(id): Promise<any> {
-        const result = await Subject.findById(id)
+        const result = await Lesson.findById(id)
         return result?.toJSON()
     }
 
     public static async update(id, data): Promise<any> {
-        const result = await Subject.updateOne({ _id: id }, data)
+        const result = await Lesson.updateOne({ _id: id }, data)
 
         return {
             modified: result.nModified > 0,
@@ -28,7 +28,7 @@ export class SubjectService {
     }
 
     public static async getFromDiscipline(discipline_id: string): Promise<any> {
-        const result = await Subject.find({ discipline: discipline_id as any }).exec()
+        const result = await Lesson.find({ discipline: discipline_id as any }).exec()
         return result?.map(e => e.toJSON())
     }
 
