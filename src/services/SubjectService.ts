@@ -27,6 +27,15 @@ export class SubjectService {
         }
     }
 
+    public static async delete(id): Promise<any> {
+        const result = await Subject.deleteOne({ _id: id })
+
+        return {
+            deleted: result.deletedCount > 0,
+            ok: result.ok
+        }
+    }
+
     public static async getFromDiscipline(discipline_id: string): Promise<any> {
         const result = await Subject.find({ discipline: discipline_id as any }).exec()
         return result?.map(e => e.toJSON())

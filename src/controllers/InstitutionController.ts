@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, Param, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { InstitutionService } from "../services/InstitutionService";
@@ -41,6 +41,13 @@ export class InstitutionController {
         if (user.type != 'admin') { } // TODO permission
 
         return { data: await InstitutionService.update(id, data) }
+    }
+
+    @Delete(':id')
+    public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
+        if (user.type != 'admin') { } // TODO permission
+
+        return { data: await InstitutionService.delete(id) }
     }
 
 }

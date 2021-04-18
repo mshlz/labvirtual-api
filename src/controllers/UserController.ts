@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { UserService } from "../services/user/UserService";
@@ -22,6 +22,13 @@ export class UserController {
 
         const service = new UserService()
         return { data: await service.update(user._id, data) }
+    }
+
+    @Delete(':id')
+    public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
+        if (user.type != 'admin') { } // TODO permission
+
+        return { data: await (new UserService()).delete(id) }
     }
 
 }

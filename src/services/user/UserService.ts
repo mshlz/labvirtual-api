@@ -10,4 +10,13 @@ export class UserService {
         }
     }
 
+    public async delete(user_id): Promise<any> {
+        const result = await User.deleteOne({ _id: user_id })
+
+        return {
+            deleted: result.deletedCount > 0,
+            ok: result.ok
+        }
+    }
+
 }

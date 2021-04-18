@@ -27,4 +27,13 @@ export class ClassService {
         }
     }
 
+    public static async delete(id): Promise<any> {
+        const result = await Class.deleteOne({ _id: id })
+
+        return {
+            deleted: result.deletedCount > 0,
+            ok: result.ok
+        }
+    }
+
 }

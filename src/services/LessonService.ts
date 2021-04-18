@@ -27,6 +27,15 @@ export class LessonService {
         }
     }
 
+    public static async delete(id): Promise<any> {
+        const result = await Lesson.deleteOne({ _id: id })
+
+        return {
+            deleted: result.deletedCount > 0,
+            ok: result.ok
+        }
+    }
+
     public static async getFromDiscipline(discipline_id: string): Promise<any> {
         const result = await Lesson.find({ discipline: discipline_id as any }).exec()
         return result?.map(e => e.toJSON())
