@@ -1,4 +1,4 @@
-import { Body, Get, HttpError, JsonController, Post } from "routing-controllers";
+import { Body, Get, HttpError, JsonController, Param, Post } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { User } from "../models/User";
 import { AuthService } from "../services/auth/AuthService";
@@ -26,6 +26,32 @@ export class AuthController {
     public async register(@Body() data: any): Promise<ApiResponse> {
         const service = new AuthService()
         return { data: await service.register(data) }
+    }
+
+    @Post('forgot-password')
+    @Validate({
+        email: Yup.string().required().email(),
+    })
+    public async generateResetToken(@Body() data: any): Promise<ApiResponse> {
+        const service = new AuthService()
+        const result = await service.generateResetToken({ email: data.email })
+
+        // send mail
+        console.log("RESET TOKEN: ", result.token);
+
+        return { data: true }
+    }
+
+    @Post('reset-password')
+    @Validate({
+        token: Yup.string().required(),
+        password: Yup.string().required(),
+    })
+    public async resetPassword(@Body() data: any): Promise<ApiResponse> {
+        const service = new AuthService()
+        const result = await service.resetPassword(data)
+
+        return { data: result }
     }
 
     // TODO: rm only for test
