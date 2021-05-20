@@ -12,6 +12,12 @@ export class AuthMiddleware implements ExpressMiddlewareInterface {
 
         const token = (request.headers.authorization || '').replace('Bearer ', '')
 
+        const payload = jwt.decode(token) as any
+
+        if (process.env.ENV != 'dev' && payload.type != 'admin') {
+            throw new UnauthorizedError("not authorized! insuficient permission")
+        }
+
         try {
             jwt.verify(token, JWT_SECRET)
 
