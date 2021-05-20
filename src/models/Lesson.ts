@@ -21,7 +21,7 @@ const LessonSchema = new Schema<ILesson & Document>({
     content: String,
     discipline: { type: String, ref: 'Discipline' },
     subject: { type: String, ref: 'Subject' },
-})
+}, { versionKey: false, timestamps: true })
 
 LessonSchema.set('toJSON', {
     virtuals: true,

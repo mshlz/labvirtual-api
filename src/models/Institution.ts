@@ -17,7 +17,7 @@ const InstitutionSchema = new Schema<IInstitution & Document>({
     acronym: String,
     code: String,
     metadata: Object
-})
+}, { versionKey: false, timestamps: true })
 
 InstitutionSchema.set('toJSON', {
     virtuals: true,

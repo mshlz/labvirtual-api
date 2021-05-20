@@ -16,7 +16,7 @@ const SubjectSchema = new Schema<ISubject & Document>({
     name: String,
     code: String,
     discipline: { type: String, ref: 'Discipline' },
-})
+}, { versionKey: false, timestamps: true })
 
 SubjectSchema.set('toJSON', {
     virtuals: true,

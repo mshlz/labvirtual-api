@@ -15,7 +15,7 @@ const DisciplineSchema = new Schema<IDiscipline & Document>({
     name: String,
     code: String,
     metadata: Object
-})
+}, { versionKey: false, timestamps: true })
 
 DisciplineSchema.set('toJSON', {
     virtuals: true,

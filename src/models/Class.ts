@@ -21,7 +21,7 @@ const ClassSchema = new Schema<IClass & Document>({
     teacher: { type: String, ref: 'User' },
     discipline: { type: String, ref: 'Discipline' },
     students: [{ type: String, ref: 'User' }]
-})
+}, { versionKey: false, timestamps: true })
 
 ClassSchema.set('toJSON', {
     virtuals: true,

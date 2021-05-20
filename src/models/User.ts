@@ -31,7 +31,7 @@ const UserSchema = new Schema<IUser & Document>({
     course: String,
     type: String,
     meta: Object
-}, { toObject: { versionKey: false, getters: true } })
+}, { versionKey: false, timestamps: true, toObject: { getters: true } })
 
 // BeforeSave hook
 UserSchema.pre('save', function (next) {
