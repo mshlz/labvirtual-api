@@ -1,4 +1,4 @@
-import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { GlossaryService } from "../services/GlossaryService";
@@ -10,6 +10,13 @@ export class GlossaryController {
     @Get()
     public async list(): Promise<ApiResponse> {
         const entries = await GlossaryService.list()
+
+        return { data: entries }
+    }
+
+    @Get('search')
+    public async simpleSearch(@QueryParams() params): Promise<ApiResponse> {
+        const entries = await GlossaryService.simpleSearch(params.query, params.page, params.limit)
 
         return { data: entries }
     }

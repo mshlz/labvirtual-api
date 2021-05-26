@@ -13,6 +13,13 @@ export class GlossaryService {
         return result?.map(e => e.toJSON())
     }
 
+    // TODO !REGEX CRITICAL
+    public static async simpleSearch(query = '', page = 1, limit = 10): Promise<any> {
+        const result = await GlossaryItem.find({ name: { $regex: query } }).select('_id name').skip(limit * (page - 1)).limit(limit)
+
+        return result?.map(e => e.toJSON())
+    }
+
     public static async get(id): Promise<any> {
         const result = await GlossaryItem.findById(id)
         return result?.toJSON()
