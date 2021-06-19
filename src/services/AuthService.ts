@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
 import { UnauthorizedError } from 'routing-controllers'
-import { JWT_SECRET } from '../../config/env'
-import { Admin, IAdmin } from '../../models/Admin'
-import { IUser, User } from '../../models/User'
-import { ResetTokenService } from '../ResetTokenService'
+import { JWT_SECRET } from '../config/env'
+import { Admin, IAdmin } from '../models/Admin'
+import { IUser, User } from '../models/User'
+import { ResetTokenService } from './ResetTokenService'
 
 export class AuthService {
     public async login(data): Promise<{ token: string, user: object }> {

@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import { v4 } from "uuid";
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 import { IDiscipline } from "./Discipline";
 import { IUser } from "./User";
 
@@ -28,6 +29,8 @@ ClassSchema.set('toJSON', {
     versionKey: false,
     transform: function (doc, ret) { delete ret._id }
 })
+
+ClassSchema.plugin(mongoosePaginator)
 
 const Class = model('Class', ClassSchema)
 

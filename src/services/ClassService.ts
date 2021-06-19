@@ -1,39 +1,6 @@
 import { Class } from "../models/Class"
+import { BaseResourceService } from "./_BaseService"
 
-export class ClassService {
-    public static async create(data): Promise<any> {
-        const result = await new Class(data).save()
-
-        return result.toJSON()
-    }
-
-    public static async list(): Promise<any> {
-        const result = await Class.find({}).populate('discipline', 'id name')
-
-        return result?.map(e => e.toJSON())
-    }
-
-    public static async get(id): Promise<any> {
-        const result = await Class.findById(id)
-        return result?.toJSON()
-    }
-
-    public static async update(id, data): Promise<any> {
-        const result = await Class.updateOne({ _id: id }, data)
-
-        return {
-            modified: result.nModified > 0,
-            ok: result.ok
-        }
-    }
-
-    public static async delete(id): Promise<any> {
-        const result = await Class.deleteOne({ _id: id })
-
-        return {
-            deleted: result.deletedCount > 0,
-            ok: result.ok
-        }
-    }
-
+export class ClassService extends BaseResourceService {
+    constructor() { super(Class) }
 }

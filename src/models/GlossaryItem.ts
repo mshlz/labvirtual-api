@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import { v4 } from "uuid";
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 import { IDiscipline } from "./Discipline";
 import { ISubject } from "./Subject";
 
@@ -26,6 +27,8 @@ GlossaryItemSchema.set('toJSON', {
     versionKey: false,
     transform: function (doc, ret) { delete ret._id }
 })
+
+GlossaryItemSchema.plugin(mongoosePaginator)
 
 const GlossaryItem = model('GlossaryItem', GlossaryItemSchema)
 

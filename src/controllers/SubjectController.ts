@@ -1,4 +1,4 @@
-import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { SubjectService } from "../services/SubjectService";
@@ -6,17 +6,17 @@ import { UserFromSession } from "../utils/decorators/UserFromSession";
 import { Validate, Yup } from "../utils/validator/Validator";
 
 @JsonController('/subjects/')
-export class ClassController {
+export class SubjectController {
     @Get()
-    public async list(): Promise<ApiResponse> {
-        const subjects = await SubjectService.list()
+    public async list(@QueryParams() query): Promise<ApiResponse> {
+        const subjects = await new SubjectService().list(query.page, query.per_page)
 
-        return { data: subjects }
+        return subjects
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const subject = await SubjectService.get(id)
+        const subject = await new SubjectService().get(id)
 
         return { data: subject }
     }
@@ -26,7 +26,7 @@ export class ClassController {
         discipline: Yup.string().trim().uuid()
     })
     public async get(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
-        const result = await SubjectService.getFromDiscipline(data.discipline)
+        const result = await new SubjectService().getFromDiscipline(data.discipline)
 
         return { data: result }
     }
@@ -39,7 +39,7 @@ export class ClassController {
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await SubjectService.create(data) }
+        return { data: await new SubjectService().create(data) }
     }
 
     @Post(':id')
@@ -50,13 +50,13 @@ export class ClassController {
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await SubjectService.update(id, data) }
+        return { data: await new SubjectService().update(id, data) }
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await SubjectService.delete(id) }
+        return { data: await new SubjectService().delete(id) }
     }
 }

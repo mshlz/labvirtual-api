@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import { v4 } from 'uuid'
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 
 interface IResetToken {
     token: string
@@ -26,6 +27,8 @@ ResetTokenSchema.set('toJSON', {
     versionKey: false,
     transform: function (doc, ret) { delete ret._id }
 });
+
+ResetTokenSchema.plugin(mongoosePaginator)
 
 const ResetToken = model('ResetToken', ResetTokenSchema)
 

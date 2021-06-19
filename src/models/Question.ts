@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import { v4 } from 'uuid'
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 import { IDiscipline } from "./Discipline";
 import { ISubject } from "./Subject";
 
@@ -7,6 +8,21 @@ export interface Alternative {
     correct: boolean
     text: string
 }
+
+const AlternativeSchema = new Schema<Alternative & Document>({
+    _id: {
+        type: String,
+        default: () => Date.now().toString(36) + Math.round(Math.random() * 100000).toString(36)
+    },
+    text: String,
+    correct: Boolean
+}, { versionKey: false, timestamps: false })
+
+AlternativeSchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) { delete ret._id }
+});
 
 interface IQuestion {
     name: string
@@ -28,14 +44,7 @@ const QuestionSchema = new Schema<IQuestion & Document>({
     type: String,
     discipline: { type: String, ref: 'Discipline' },
     subject: { type: String, ref: 'Subject' },
-    alternatives: [
-        {
-            code: String,
-            correct: Boolean,
-            text: String,
-            // correlated: [String]
-        }
-    ],
+    alternatives: [AlternativeSchema],
     metadata: Object
 }, { versionKey: false, timestamps: true })
 
@@ -44,6 +53,8 @@ QuestionSchema.set('toJSON', {
     versionKey: false,
     transform: function (doc, ret) { delete ret._id }
 });
+
+QuestionSchema.plugin(mongoosePaginator)
 
 const Question = model('Question', QuestionSchema)
 

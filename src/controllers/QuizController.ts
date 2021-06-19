@@ -1,51 +1,55 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
-import { DisciplineService } from "../services/DisciplineService";
+import { QuizService } from "../services/QuizService";
 import { UserFromSession } from "../utils/decorators/UserFromSession";
 import { Validate, Yup } from "../utils/validator/Validator";
 
-@JsonController('/disciplines/')
-export class UserController {
+@JsonController('/quiz/')
+export class QuizController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
-        const disciplines = await new DisciplineService().list(query.page, query.per_page)
+        const quizzes = await new QuizService().list(query.page, query.per_page)
 
-        return disciplines
+        return quizzes
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const discipline = await new DisciplineService().get(id)
+        const quiz = await new QuizService().get(id)
 
-        return { data: discipline }
+        return { data: quiz }
     }
 
     @Post()
     @Validate({
-        name: Yup.string().trim().min(3)
+        name: Yup.string().trim().min(3),
+        text: Yup.string().trim(),
+        questions: Yup.array()
     })
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await new DisciplineService().create(data) }
+        return { data: await new QuizService().create({...data, questions: data.ref_questions || []}) }
     }
 
     @Post(':id')
     @Validate({
-        name: Yup.string().trim().min(3)
+        name: Yup.string().trim().min(3),
+        text: Yup.string().trim(),
+        questions: Yup.array()
     })
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await new DisciplineService().update(id, data) }
+        return { data: await new QuizService().update(id, data) }
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await new DisciplineService().delete(id) }
+        return { data: await new QuizService().delete(id) }
     }
 
 }

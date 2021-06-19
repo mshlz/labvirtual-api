@@ -1,7 +1,7 @@
 import { Body, Get, HttpError, JsonController, Param, Post } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { User } from "../models/User";
-import { AuthService } from "../services/auth/AuthService";
+import { AuthService } from "../services/AuthService";
 import { Validate, Yup } from "../utils/validator/Validator";
 
 @JsonController('/auth/')

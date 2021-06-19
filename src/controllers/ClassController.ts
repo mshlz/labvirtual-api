@@ -1,4 +1,4 @@
-import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { ClassService } from "../services/ClassService";
@@ -8,15 +8,15 @@ import { Validate, Yup } from "../utils/validator/Validator";
 @JsonController('/classes/')
 export class ClassController {
     @Get()
-    public async list(): Promise<ApiResponse> {
-        const classes = await ClassService.list()
+    public async list(@QueryParams() query): Promise<ApiResponse> {
+        const classes = await new ClassService().list(query.page, query.per_page)
 
-        return { data: classes }
+        return classes
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const classe = await ClassService.get(id)
+        const classe = await new ClassService().get(id)
 
         return { data: classe }
     }
@@ -29,7 +29,7 @@ export class ClassController {
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await ClassService.create(data) }
+        return { data: await new ClassService().create(data) }
     }
 
     @Post(':id')
@@ -40,14 +40,14 @@ export class ClassController {
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await ClassService.update(id, data) }
+        return { data: await new ClassService().update(id, data) }
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await ClassService.delete(id) }
+        return { data: await new ClassService().delete(id) }
     }
 
 }

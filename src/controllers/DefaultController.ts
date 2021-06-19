@@ -6,7 +6,10 @@ export class DefaultController {
     @Get('health')
     public async health(): Promise<ApiResponse> {
         return {
-            message: "OK"
+            message: "OK",
+            data: {
+                version: '1'
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { InstitutionService } from "../services/InstitutionService";
@@ -8,15 +8,16 @@ import { Validate, Yup } from "../utils/validator/Validator";
 @JsonController('/institutions/')
 export class InstitutionController {
     @Get()
-    public async list(): Promise<ApiResponse> {
-        const institutions = await InstitutionService.list()
+    public async list(@QueryParams() query): Promise<ApiResponse> {
+        console.log(query)
+        const institutions = await new InstitutionService().list(query.page, query.per_page)
 
-        return { data: institutions }
+        return institutions
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const institution = await InstitutionService.get(id)
+        const institution = await new InstitutionService().get(id)
 
         return { data: institution }
     }
@@ -29,7 +30,7 @@ export class InstitutionController {
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await InstitutionService.create(data) }
+        return { data: await new InstitutionService().create(data) }
     }
 
     @Post(':id')
@@ -40,14 +41,14 @@ export class InstitutionController {
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await InstitutionService.update(id, data) }
+        return { data: await new InstitutionService().update(id, data) }
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await InstitutionService.delete(id) }
+        return { data: await new InstitutionService().delete(id) }
     }
 
 }

@@ -1,7 +1,7 @@
 import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
-import { UserService } from "../services/user/UserService";
+import { UserService } from "../services/UserService";
 import { UserFromSession } from "../utils/decorators/UserFromSession";
 import { Validate, Yup } from "../utils/validator/Validator";
 

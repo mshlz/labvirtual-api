@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
-import { v4 } from 'uuid'
+import { v4 } from 'uuid';
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 
 interface IInstitution {
     name: string
@@ -25,6 +26,8 @@ InstitutionSchema.set('toJSON', {
     transform: function (doc, ret) { delete ret._id }
 });
 
+InstitutionSchema.plugin(mongoosePaginator)
+
 const Institution = model('Institution', InstitutionSchema)
 
-export { Institution, IInstitution }
+export { Institution, IInstitution };

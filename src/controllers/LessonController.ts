@@ -1,4 +1,4 @@
-import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
 import { LessonService } from "../services/LessonService";
@@ -8,15 +8,15 @@ import { Validate, Yup } from "../utils/validator/Validator";
 @JsonController('/lessons/')
 export class LessonController {
     @Get()
-    public async list(): Promise<ApiResponse> {
-        const lessons = await LessonService.list()
+    public async list(@QueryParams() query): Promise<ApiResponse> {
+        const lessons = await new LessonService().list(query.page, query.per_page)
 
-        return { data: lessons }
+        return lessons
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const subject = await LessonService.get(id)
+        const subject = await new LessonService().get(id)
 
         return { data: subject }
     }
@@ -39,7 +39,7 @@ export class LessonController {
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await LessonService.create(data) }
+        return { data: await new LessonService().create(data) }
     }
 
     @Post(':id')
@@ -50,14 +50,14 @@ export class LessonController {
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await LessonService.update(id, data) }
+        return { data: await new LessonService().update(id, data) }
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await LessonService.delete(id) }
+        return { data: await new LessonService().delete(id) }
     }
 
 }

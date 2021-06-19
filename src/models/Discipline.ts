@@ -1,5 +1,6 @@
 import { Document, model, Schema } from "mongoose";
 import { v4 } from 'uuid'
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 
 interface IDiscipline {
     name: string
@@ -22,6 +23,14 @@ DisciplineSchema.set('toJSON', {
     versionKey: false,
     transform: function (doc, ret) { delete ret._id }
 });
+
+DisciplineSchema.set('toObject', {
+    virtuals: true,
+    versionKey: false,
+    transform: function (doc, ret) { delete ret._id }
+});
+
+DisciplineSchema.plugin(mongoosePaginator)
 
 const Discipline = model('Discipline', DisciplineSchema)
 

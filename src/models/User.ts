@@ -1,9 +1,10 @@
 import { Document, model, ObjectId, Schema } from "mongoose";
 import bcrypt from 'bcrypt'
 import { v4 } from "uuid";
+import mongoosePaginator from "../utils/database/mongoose-paginator";
 
 interface IUser {
-    _id?: ObjectId
+    _id?: string
     name: string
     email: string
     phone: string
@@ -68,6 +69,8 @@ UserSchema.set('toJSON', {
     versionKey: false,
     transform: function (doc, ret) { delete ret._id }
 })
+
+UserSchema.plugin(mongoosePaginator)
 
 const User = model('User', UserSchema)
 
