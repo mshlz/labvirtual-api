@@ -1,4 +1,4 @@
-import { FilterQuery, Query, QueryFindOptions } from "mongoose";
+import { FilterQuery, Query } from "mongoose";
 
 interface PaginationOptions {
     page: number,
@@ -8,7 +8,7 @@ interface PaginationOptions {
     leanWithId: boolean,
     projection: {},
     select: string,
-    options: QueryFindOptions,
+    options: any,
     pagination: boolean,
     useEstimatedCount: boolean,
     useCustomCountFn: boolean,
