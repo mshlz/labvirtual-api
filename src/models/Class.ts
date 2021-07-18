@@ -6,6 +6,7 @@ import { IUser } from "./User";
 
 interface IClass {
     name: string
+    description: string
     code: string
     teacher: IUser
     discipline: IDiscipline
@@ -18,6 +19,7 @@ const ClassSchema = new Schema<IClass & Document>({
         default: v4
     },
     name: String,
+    description: String,
     code: String,
     teacher: { type: String, ref: 'User' },
     discipline: { type: String, ref: 'Discipline' },
