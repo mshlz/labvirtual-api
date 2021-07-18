@@ -1,9 +1,11 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../interfaces/ApiResponse";
 import { IUser } from "../models/User";
+import { Post as PostModel } from "../models/Post";
 import { CommentService } from "../services/CommentService";
 import { UserFromSession } from "../utils/decorators/UserFromSession";
 import { Validate, Yup } from "../utils/validator/Validator";
+import { Comment } from "../models/Comment";
 
 @JsonController('/comments/')
 export class CommentController {
@@ -23,8 +25,8 @@ export class CommentController {
 
     @Post()
     @Validate({
-        text: Yup.string().trim().min(3).max(1000),
-        post_uuid: Yup.string().uuid()
+        text: Yup.string().trim().min(3).max(1000).required(),
+        post_uuid: Yup.string().uuid().required()
     })
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission

@@ -23,12 +23,12 @@ export class PostController {
 
     @Post()
     @Validate({
-        text: Yup.string().trim().min(3).max(5000)
+        text: Yup.string().trim().max(5000).required()
     })
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await new PostService().create(data) }
+        return { data: await new PostService().create({ ...data, author: user._id }) }
     }
 
     @Post(':id')
