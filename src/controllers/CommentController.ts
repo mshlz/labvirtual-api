@@ -31,7 +31,7 @@ export class CommentController {
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
-        return { data: await new CommentService().create(data) }
+        return { data: await new CommentService().create({ ...data, author: user._id }) }
     }
 
     @Post(':id')

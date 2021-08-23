@@ -8,7 +8,7 @@ import { IUser } from "./User";
 interface IPost {
     author: IUser
     text: string
-    class: IClass
+    class: IClass | string
     comments: IComment[]
 }
 
@@ -18,6 +18,7 @@ const PostSchema = new Schema<IPost & Document>({
         default: v4
     },
     author: { type: String, ref: 'User' },
+    class: { type: String, ref: 'Class' },
     text: String,
     comments: [{ type: String, ref: 'Comment' }]
 }, { versionKey: false, timestamps: true })
