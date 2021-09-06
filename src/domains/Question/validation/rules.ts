@@ -6,6 +6,8 @@ class Rules {
         text: Yup.string().trim(),
         type: Yup.string().trim().oneOf(['dissertative', 'single-choice', 'multiple-choice']),
         alternatives: Yup.array(),
+        disciplines: Yup.array().of(Yup.string().uuid()),
+        subjects: Yup.array().of(Yup.string().uuid()),
     }
 
     onUpdate = {

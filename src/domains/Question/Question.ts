@@ -22,8 +22,8 @@ interface IQuestion {
     name: string
     text: string
     type: string
-    discipline: string | IDiscipline
-    subject: string | ISubject
+    disciplines: string[] | IDiscipline[]
+    subjects: string[] | ISubject[]
     metadata: object
     alternatives: Alternative[]
 }
@@ -32,8 +32,8 @@ const QuestionSchema = new BaseSchema<IQuestion>({
     name: String,
     text: String,
     type: String,
-    discipline: { type: String, ref: 'Discipline' },
-    subject: { type: String, ref: 'Subject' },
+    disciplines: [{ type: String, ref: 'Discipline' }],
+    subjects: [{ type: String, ref: 'Subject' }],
     alternatives: [AlternativeSchema],
     metadata: Object
 }, { versionKey: false, timestamps: true })
