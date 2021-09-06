@@ -4,6 +4,7 @@ import { IUser } from "../System/User/User";
 import { SubjectService } from "./SubjectService";
 import { UserFromSession } from "../../utils/decorators/UserFromSession";
 import { Validate, Yup } from "../../utils/validator/Validator";
+import rules from "./validation/rules";
 
 @JsonController('/subjects/')
 export class SubjectController {
@@ -21,7 +22,7 @@ export class SubjectController {
         return { data: subject }
     }
 
-    @Post('get/discipline')
+    @Post('get/discipline') // TODO invert this ? 
     @Validate({
         discipline: Yup.string().trim().uuid()
     })
@@ -32,10 +33,7 @@ export class SubjectController {
     }
 
     @Post()
-    @Validate({
-        name: Yup.string().trim().min(3),
-        discipline: Yup.string().trim().uuid()
-    })
+    @Validate(rules.onCreate)
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
@@ -43,10 +41,7 @@ export class SubjectController {
     }
 
     @Post(':id')
-    @Validate({
-        name: Yup.string().trim().min(3),
-        discipline: Yup.string().trim().uuid()
-    })
+    @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 

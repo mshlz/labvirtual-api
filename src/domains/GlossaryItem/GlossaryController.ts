@@ -1,9 +1,10 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../../interfaces/ApiResponse";
+import { UserFromSession } from "../../utils/decorators/UserFromSession";
+import { Validate } from "../../utils/validator/Validator";
 import { IUser } from "../System/User/User";
 import { GlossaryService } from "./GlossaryService";
-import { UserFromSession } from "../../utils/decorators/UserFromSession";
-import { Validate, Yup } from "../../utils/validator/Validator";
+import rules from "./validation/rules";
 
 @JsonController('/glossary/')
 export class GlossaryController {
@@ -39,12 +40,7 @@ export class GlossaryController {
     // }
 
     @Post()
-    @Validate({
-        name: Yup.string().trim().min(1),
-        description: Yup.string().trim().min(3),
-        discipline: Yup.string().trim().uuid(),
-        // subject: Yup.string().notRequired().trim().uuid(),
-    })
+    @Validate(rules.onCreate)
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
@@ -52,12 +48,7 @@ export class GlossaryController {
     }
 
     @Post(':id')
-    @Validate({
-        name: Yup.string().trim().min(1),
-        description: Yup.string().trim().min(3),
-        discipline: Yup.string().trim().uuid(),
-        // subject: Yup.string().trim().uuid(),
-    })
+    @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 

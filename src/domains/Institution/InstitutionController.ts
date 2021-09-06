@@ -1,15 +1,15 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../../interfaces/ApiResponse";
+import { UserFromSession } from "../../utils/decorators/UserFromSession";
+import { Validate } from "../../utils/validator/Validator";
 import { IUser } from "../System/User/User";
 import { InstitutionService } from "./InstitutionService";
-import { UserFromSession } from "../../utils/decorators/UserFromSession";
-import { Validate, Yup } from "../../utils/validator/Validator";
+import rules from "./validation/rules";
 
 @JsonController('/institutions/')
 export class InstitutionController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
-        console.log(query)
         const institutions = await new InstitutionService().list(query.page, query.per_page)
 
         return institutions
@@ -23,10 +23,7 @@ export class InstitutionController {
     }
 
     @Post()
-    @Validate({
-        name: Yup.string().trim().min(3),
-        acronym: Yup.string().trim().min(3)
-    })
+    @Validate(rules.onCreate)
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
@@ -34,10 +31,7 @@ export class InstitutionController {
     }
 
     @Post(':id')
-    @Validate({
-        name: Yup.string().trim().min(3),
-        acronym: Yup.string().trim().min(3)
-    })
+    @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 

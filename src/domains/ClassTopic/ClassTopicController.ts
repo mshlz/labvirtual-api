@@ -1,9 +1,10 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../../interfaces/ApiResponse";
+import { UserFromSession } from "../../utils/decorators/UserFromSession";
+import { Validate } from "../../utils/validator/Validator";
 import { IUser } from "../System/User/User";
 import { ClassTopicService } from "./ClassTopicService";
-import { UserFromSession } from "../../utils/decorators/UserFromSession";
-import { Validate, Yup } from "../../utils/validator/Validator";
+import rules from "./validation/rules";
 
 @JsonController('/class-topics/')
 export class ClassTopicController {
@@ -29,10 +30,7 @@ export class ClassTopicController {
     }
 
     @Post()
-    @Validate({
-        name: Yup.string().trim().min(3),
-        class: Yup.string().trim().required().uuid()
-    })
+    @Validate(rules.onCreate)
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
@@ -40,9 +38,7 @@ export class ClassTopicController {
     }
 
     @Post(':id')
-    @Validate({
-        name: Yup.string().trim().min(3)
-    })
+    @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 

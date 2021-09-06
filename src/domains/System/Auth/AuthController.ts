@@ -1,37 +1,27 @@
-import { Body, Get, HttpError, JsonController, Param, Post } from "routing-controllers";
+import { Body, JsonController, Post } from "routing-controllers";
 import { ApiResponse } from "../../../interfaces/ApiResponse";
-import { User } from "../User/User";
+import { Validate } from "../../../utils/validator/Validator";
 import { AuthService } from "./AuthService";
-import { Validate, Yup } from "../../../utils/validator/Validator";
+import rules from "./validation/rules";
 
 @JsonController('/auth/')
 export class AuthController {
     @Post('login')
-    @Validate({
-        email: Yup.string().required().email(),
-        password: Yup.string().required()
-    })
+    @Validate(rules.onLogin)
     public async login(@Body() data: any): Promise<ApiResponse> {
         const service = new AuthService()
         return { data: await service.login(data) }
     }
 
     @Post('register')
-    @Validate({
-        name: Yup.string().required(),
-        email: Yup.string().required().email(),
-        password: Yup.string().required(),
-        type: Yup.string().required().oneOf(['teacher', 'student'])
-    })
+    @Validate(rules.onRegister)
     public async register(@Body() data: any): Promise<ApiResponse> {
         const service = new AuthService()
         return { data: await service.register(data) }
     }
 
     @Post('forgot-password')
-    @Validate({
-        email: Yup.string().required().email(),
-    })
+    @Validate(rules.onForgotPassword)
     public async generateResetToken(@Body() data: any): Promise<ApiResponse> {
         const service = new AuthService()
         const result = await service.generateResetToken({ email: data.email })
@@ -43,10 +33,7 @@ export class AuthController {
     }
 
     @Post('reset-password')
-    @Validate({
-        token: Yup.string().required(),
-        password: Yup.string().required(),
-    })
+    @Validate(rules.onResetPassword)
     public async resetPassword(@Body() data: any): Promise<ApiResponse> {
         const service = new AuthService()
         const result = await service.resetPassword(data)
@@ -54,12 +41,4 @@ export class AuthController {
         return { data: result }
     }
 
-    // TODO: rm only for test
-    @Get('users')
-    public async users(@Body() data: any): Promise<ApiResponse> {
-        // body
-        return {
-            data: await User.find()
-        }
-    }
 }

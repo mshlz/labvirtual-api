@@ -1,11 +1,10 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../../interfaces/ApiResponse";
-import { IUser } from "../System/User/User";
-import { Post as PostModel } from "../Post/Post";
-import { CommentService } from "./CommentService";
 import { UserFromSession } from "../../utils/decorators/UserFromSession";
-import { Validate, Yup } from "../../utils/validator/Validator";
-import { Comment } from "./Comment";
+import { Validate } from "../../utils/validator/Validator";
+import { IUser } from "../System/User/User";
+import { CommentService } from "./CommentService";
+import rules from "./validation/rules";
 
 @JsonController('/comments/')
 export class CommentController {
@@ -24,10 +23,7 @@ export class CommentController {
     }
 
     @Post()
-    @Validate({
-        text: Yup.string().trim().min(3).max(1000).required(),
-        post_uuid: Yup.string().uuid().required()
-    })
+    @Validate(rules.onCreate)
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
@@ -35,9 +31,7 @@ export class CommentController {
     }
 
     @Post(':id')
-    @Validate({
-        name: Yup.string().trim().min(3)
-    })
+    @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 

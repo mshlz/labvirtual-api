@@ -1,9 +1,10 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from "routing-controllers";
 import { ApiResponse } from "../../interfaces/ApiResponse";
+import { UserFromSession } from "../../utils/decorators/UserFromSession";
+import { Validate } from "../../utils/validator/Validator";
 import { IUser } from "../System/User/User";
 import { QuestionService } from "./QuestionService";
-import { UserFromSession } from "../../utils/decorators/UserFromSession";
-import { Validate, Yup } from "../../utils/validator/Validator";
+import rules from "./validation/rules";
 
 @JsonController('/questions/')
 export class QuestionController {
@@ -22,12 +23,7 @@ export class QuestionController {
     }
 
     @Post()
-    @Validate({
-        name: Yup.string().trim().min(3),
-        text: Yup.string().trim(),
-        type: Yup.string().trim().oneOf(['dissertative', 'single-choice', 'multiple-choice']),
-        alternatives: Yup.array(),
-    })
+    @Validate(rules.onCreate)
     public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
@@ -35,12 +31,7 @@ export class QuestionController {
     }
 
     @Post(':id')
-    @Validate({
-        name: Yup.string().trim().min(3),
-        text: Yup.string().trim(),
-        type: Yup.string().trim().oneOf(['dissertative', 'single-choice', 'multiple-choice']),
-        alternatives: Yup.array(),
-    })
+    @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') { } // TODO permission
 
