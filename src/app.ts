@@ -21,7 +21,7 @@ const createApp = async () => {
         useExpressServer(app, {
             defaultErrorHandler: false,
             controllers: [
-                __dirname + '/controllers/*.[jt]s'
+                __dirname + '/domains/**/*Controller.[jt]s'
             ],
             middlewares: [
                 __dirname + '/middlewares/*.[jt]s'

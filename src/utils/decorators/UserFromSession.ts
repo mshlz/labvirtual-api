@@ -1,5 +1,5 @@
 import { createParamDecorator } from 'routing-controllers';
-import { User } from '../../models/User';
+import { User } from '../../domains/System/User/User';
 import jwt from 'jsonwebtoken'
 
 export function UserFromSession(options?: { required?: boolean }) {
