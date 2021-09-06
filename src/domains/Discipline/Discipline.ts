@@ -1,11 +1,11 @@
-import { model } from "mongoose";
-import { BaseSchema } from '../Base/BaseSchema';
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 interface IDiscipline {
     name: string
     code: string
-    metadata: object
+    metadata: Record<string, any>
 }
 
 const DisciplineSchema = new BaseSchema<IDiscipline>({
@@ -18,4 +18,4 @@ DisciplineSchema.plugin(mongoosePaginator)
 
 const Discipline = model<IDiscipline>('Discipline', DisciplineSchema)
 
-export { Discipline, IDiscipline };
+export { Discipline, IDiscipline }

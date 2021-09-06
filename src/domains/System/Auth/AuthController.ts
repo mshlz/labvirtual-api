@@ -1,8 +1,8 @@
-import { Body, JsonController, Post } from "routing-controllers";
-import { ApiResponse } from "../../../interfaces/ApiResponse";
-import { Validate } from "../../../utils/validator/Validator";
-import { AuthService } from "./AuthService";
-import rules from "./validation/rules";
+import { Body, JsonController, Post } from 'routing-controllers'
+import { ApiResponse } from '../../../interfaces/ApiResponse'
+import { Validate } from '../../../utils/validator/Validator'
+import { AuthService } from './AuthService'
+import rules from './validation/rules'
 
 @JsonController('/auth/')
 export class AuthController {
@@ -27,7 +27,7 @@ export class AuthController {
         const result = await service.generateResetToken({ email: data.email })
 
         // send mail
-        console.log("RESET TOKEN: ", result.token);
+        console.log('RESET TOKEN: ', result.token)
 
         return { data: true }
     }

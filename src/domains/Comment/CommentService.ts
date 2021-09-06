@@ -1,6 +1,6 @@
-import { Comment } from "./Comment";
-import { Post } from "../Post/Post";
-import { BaseResourceService } from "../Base/BaseService";
+import { Comment } from './Comment'
+import { Post } from '../Post/Post'
+import { BaseResourceService } from '../Base/BaseService'
 
 export class CommentService extends BaseResourceService {
     constructor() { super(Comment) }

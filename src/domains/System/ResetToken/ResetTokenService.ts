@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
 import { v4 } from 'uuid'
-import { IResetToken, ResetToken } from "./ResetToken"
+import { IResetToken, ResetToken } from './ResetToken'
 
 export class ResetTokenService {
     public static async create(parent: string): Promise<IResetToken> {

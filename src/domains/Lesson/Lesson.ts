@@ -1,8 +1,8 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import { IDiscipline } from "../Discipline/Discipline";
-import { ISubject } from "../Subject/Subject";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import { IDiscipline } from '../Discipline/Discipline'
+import { ISubject } from '../Subject/Subject'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 interface ILesson {
     name: string
@@ -24,4 +24,4 @@ LessonSchema.plugin(mongoosePaginator)
 
 const Lesson = model<ILesson>('Lesson', LessonSchema)
 
-export { Lesson, ILesson };
+export { Lesson, ILesson }

@@ -1,5 +1,5 @@
-import { Document, Model } from "mongoose"
-import { PaginationResult } from "../../utils/database/mongoose-paginator"
+import { Document, Model } from 'mongoose'
+import { PaginationResult } from '../../utils/database/mongoose-paginator'
 
 export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>>} = any> {
     constructor(private model: T) {}

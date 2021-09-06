@@ -1,10 +1,10 @@
-import { Body, Delete, Get, JsonController, Param, Post } from "routing-controllers";
-import { ApiResponse } from "../../../interfaces/ApiResponse";
-import { UserFromSession } from "../../../utils/decorators/UserFromSession";
-import { Validate } from "../../../utils/validator/Validator";
-import { IUser } from "./User";
-import { UserService } from "./UserService";
-import rules from "./validation/rules";
+import { Body, Delete, Get, JsonController, Param, Post } from 'routing-controllers'
+import { ApiResponse } from '../../../interfaces/ApiResponse'
+import { UserFromSession } from '../../../utils/decorators/UserFromSession'
+import { Validate } from '../../../utils/validator/Validator'
+import { IUser } from './User'
+import { UserService } from './UserService'
+import rules from './validation/rules'
 
 @JsonController('/users/')
 export class UserController {
@@ -23,8 +23,8 @@ export class UserController {
     }
 
     @Delete(':id')
-    public async delete(@Param('id') id: string, @UserFromSession() user: IUser): Promise<ApiResponse> {
-        if (user.type != 'admin') { } // TODO permission
+    public async delete(@Param('id') id: string): Promise<ApiResponse> {
+        
 
         return { data: await (new UserService()).delete(id) }
     }

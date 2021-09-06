@@ -1,6 +1,6 @@
-import { model } from "mongoose";
-import { BaseSchema } from '../../Base/BaseSchema';
-import mongoosePaginator from "../../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../../Base/BaseSchema'
+import mongoosePaginator from '../../../utils/database/mongoose-paginator'
 
 interface IResetToken {
     token: string
@@ -22,4 +22,4 @@ ResetTokenSchema.plugin(mongoosePaginator)
 
 const ResetToken = model<IResetToken>('ResetToken', ResetTokenSchema)
 
-export { ResetToken, IResetToken };
+export { ResetToken, IResetToken }

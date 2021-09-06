@@ -1,7 +1,7 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import { IDiscipline } from "../Discipline/Discipline";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import { IDiscipline } from '../Discipline/Discipline'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 interface ISubject {
     name: string
@@ -19,4 +19,4 @@ SubjectSchema.plugin(mongoosePaginator)
 
 const Subject = model<ISubject>('Subject', SubjectSchema)
 
-export { Subject, ISubject };
+export { Subject, ISubject }

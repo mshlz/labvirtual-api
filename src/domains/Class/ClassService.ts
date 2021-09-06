@@ -1,5 +1,5 @@
-import { Class } from "./Class"
-import { BaseResourceService } from "../Base/BaseService"
+import { Class } from './Class'
+import { BaseResourceService } from '../Base/BaseService'
 
 export class ClassService extends BaseResourceService {
     constructor() { super(Class) }

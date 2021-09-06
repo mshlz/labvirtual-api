@@ -1,11 +1,11 @@
-import { ImageLog } from "./ImageLog"
+import { ImageLog } from './ImageLog'
 import axios from 'axios'
 import FormData from 'form-data'
-import { IMGUR_CLIENT_ID } from "../../config/env"
+import { IMGUR_CLIENT_ID } from '../../config/env'
 
 export class ImageUploadService {
 
-    public static async uploadImage({ filename, buffer, size }, metadata?: object) {        
+    public static async uploadImage({ filename, buffer, size }, metadata?: Record<string, unknown>) {        
         const data = new FormData()
         data.append('image', buffer)
 

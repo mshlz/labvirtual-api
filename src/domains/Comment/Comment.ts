@@ -1,8 +1,8 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
-import { IPost } from "../Post/Post";
-import { IUser } from "../System/User/User";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
+import { IPost } from '../Post/Post'
+import { IUser } from '../System/User/User'
 
 interface IComment {
     author: IUser
@@ -20,4 +20,4 @@ CommentSchema.plugin(mongoosePaginator)
 
 const Comment = model<IComment>('Comment', CommentSchema)
 
-export { Comment, IComment };
+export { Comment, IComment }

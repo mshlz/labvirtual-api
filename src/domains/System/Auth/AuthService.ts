@@ -5,7 +5,7 @@ import { ResetTokenService } from '../ResetToken/ResetTokenService'
 import { IUser, User } from '../User/User'
 
 export class AuthService {
-    public async login(data): Promise<{ token: string, user: object }> {
+    public async login(data): Promise<{ token: string, user: Record<string, unknown> }> {
         // validate
         const user = await User.findOne({ email: data.email })
         console.log(user)
@@ -27,16 +27,16 @@ export class AuthService {
 
     public async register(data): Promise<IUser> {
         let user = null
-            user = await User.create(data)
+        user = await User.create(data)
         
         return user.toPublicJSON()
     }
 
     public async generateResetToken(data) {
-        let user = await User.findOne({ email: data.email })
+        const user = await User.findOne({ email: data.email })
 
         if (!user) {
-            throw new Error("User not found")
+            throw new Error('User not found')
         }
 
         const resetToken = await ResetTokenService.create(user.id)
@@ -45,10 +45,10 @@ export class AuthService {
     }
 
     public async resetPassword(data) {
-        let token = await ResetTokenService.use(data.token)
+        const token = await ResetTokenService.use(data.token)
 
         if (!token) {
-            throw new Error("Token not found")
+            throw new Error('Token not found')
         }
 
         const user = await User.findOne({_id: token.parent})

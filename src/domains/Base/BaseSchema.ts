@@ -1,5 +1,5 @@
-import { Schema, SchemaDefinition, SchemaDefinitionType, SchemaOptions } from "mongoose";
-import { v4 } from "uuid";
+import { Schema, SchemaDefinition, SchemaDefinitionType, SchemaOptions } from 'mongoose'
+import { v4 } from 'uuid'
 
 export class BaseSchema<T = any> extends Schema {
     constructor(definition?: SchemaDefinition<SchemaDefinitionType<T>>, options?: SchemaOptions) {

@@ -1,12 +1,12 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 interface IImageLog {
     original_filename: string
     url: string
     size: number
-    metadata: object
+    metadata: Record<string, any>
 }
 
 const ImageLogSchema = new BaseSchema<IImageLog>({
@@ -20,4 +20,4 @@ ImageLogSchema.plugin(mongoosePaginator)
 
 const ImageLog = model<IImageLog>('ImageLog', ImageLogSchema)
 
-export { ImageLog, IImageLog };
+export { ImageLog, IImageLog }

@@ -1,8 +1,8 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import { IDiscipline } from "../Discipline/Discipline";
-import { ISubject } from "../Subject/Subject";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import { IDiscipline } from '../Discipline/Discipline'
+import { ISubject } from '../Subject/Subject'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 interface IGlossaryItem {
     name: string
@@ -22,4 +22,4 @@ GlossaryItemSchema.plugin(mongoosePaginator)
 
 const GlossaryItem = model<IGlossaryItem>('GlossaryItem', GlossaryItemSchema)
 
-export { GlossaryItem, IGlossaryItem };
+export { GlossaryItem, IGlossaryItem }

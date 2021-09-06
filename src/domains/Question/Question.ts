@@ -1,8 +1,8 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import { IDiscipline } from "../Discipline/Discipline";
-import { ISubject } from "../Subject/Subject";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import { IDiscipline } from '../Discipline/Discipline'
+import { ISubject } from '../Subject/Subject'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 export interface Alternative {
     correct: boolean
@@ -24,7 +24,7 @@ interface IQuestion {
     type: string
     disciplines: string[] | IDiscipline[]
     subjects: string[] | ISubject[]
-    metadata: object
+    metadata: Record<string, any>
     alternatives: Alternative[]
 }
 
@@ -42,4 +42,4 @@ QuestionSchema.plugin(mongoosePaginator)
 
 const Question = model<IQuestion>('Question', QuestionSchema)
 
-export { Question, IQuestion };
+export { Question, IQuestion }

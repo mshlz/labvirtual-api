@@ -1,7 +1,7 @@
-import { model } from "mongoose";
-import { BaseSchema } from "../Base/BaseSchema";
-import { IClass } from "../Class/Class";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
+import { model } from 'mongoose'
+import { BaseSchema } from '../Base/BaseSchema'
+import { IClass } from '../Class/Class'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 interface IClassTopic {
     name: string
@@ -17,5 +17,5 @@ ClassTopicSchema.plugin(mongoosePaginator)
 
 const ClassTopic = model<IClassTopic>('ClassTopic', ClassTopicSchema)
 
-export { ClassTopic, IClassTopic };
+export { ClassTopic, IClassTopic }
 

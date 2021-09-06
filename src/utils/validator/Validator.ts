@@ -1,4 +1,4 @@
-import { HttpError } from 'routing-controllers';
+import { HttpError } from 'routing-controllers'
 import * as Yup from 'yup'
 export { Yup }
 
@@ -16,13 +16,13 @@ export const Validate = (rules) => {
                     .validate(data, { abortEarly: false })
             }
             catch (err) {
-                const validationErrors = {};
+                const validationErrors = {}
                 if (err instanceof Yup.ValidationError) {
                     err.inner.forEach(err => {
-                        validationErrors[err.path] = err.message;
-                    });
+                        validationErrors[err.path] = err.message
+                    })
 
-                    const error = new HttpError(422, "ValidationError") as any
+                    const error = new HttpError(422, 'ValidationError') as any
                     error.errors = validationErrors
                     throw error
                 }
@@ -32,5 +32,5 @@ export const Validate = (rules) => {
         }
 
 
-    };
+    }
 }

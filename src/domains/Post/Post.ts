@@ -1,10 +1,9 @@
-import { Document, model, Schema } from "mongoose";
-import { v4 } from "uuid";
-import mongoosePaginator from "../../utils/database/mongoose-paginator";
-import { IClass } from "../Class/Class";
-import { IComment } from "../Comment/Comment";
-import { IUser } from "../System/User/User";
-import { BaseSchema } from "../Base/BaseSchema";
+import { model } from 'mongoose'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
+import { BaseSchema } from '../Base/BaseSchema'
+import { IClass } from '../Class/Class'
+import { IComment } from '../Comment/Comment'
+import { IUser } from '../System/User/User'
 
 interface IPost {
     author: IUser

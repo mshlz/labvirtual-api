@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { ExpressErrorMiddlewareInterface, Middleware } from "routing-controllers";
+import { Request, Response } from 'express'
+import { ExpressErrorMiddlewareInterface, Middleware } from 'routing-controllers'
 
 @Middleware({ type: 'after' })
 export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {

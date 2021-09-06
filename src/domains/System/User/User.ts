@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import { model } from "mongoose";
-import { BaseSchema } from "../../Base/BaseSchema";
-import mongoosePaginator from "../../../utils/database/mongoose-paginator";
+import bcrypt from 'bcrypt'
+import { model } from 'mongoose'
+import { BaseSchema } from '../../Base/BaseSchema'
+import mongoosePaginator from '../../../utils/database/mongoose-paginator'
 
 interface IUser {
     _id: string
@@ -13,9 +13,9 @@ interface IUser {
     school: string
     course: string
     type: string
-    meta: object
+    meta: Record<string, unknown>
     checkPassword: (p: string) => boolean
-    toPublicJSON: () => object
+    toPublicJSON: () => Record<string, string>
 }
 
 const UserSchema = new BaseSchema<IUser>({
@@ -32,7 +32,8 @@ const UserSchema = new BaseSchema<IUser>({
 
 // BeforeSave hook
 UserSchema.pre('save', function (next) {
-    let user = this
+    // eslint-disable-next-line
+    const user = this
     if (!user.isModified('password')) return next()
 
     bcrypt.hash(user.password, 10, function (err, encrypted) {
@@ -64,4 +65,4 @@ UserSchema.plugin(mongoosePaginator)
 
 const User = model<IUser>('User', UserSchema)
 
-export { User, IUser };
+export { User, IUser }

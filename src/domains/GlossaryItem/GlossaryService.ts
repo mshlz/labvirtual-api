@@ -1,5 +1,5 @@
-import { GlossaryItem } from "./GlossaryItem"
-import { BaseResourceService } from "../Base/BaseService"
+import { GlossaryItem } from './GlossaryItem'
+import { BaseResourceService } from '../Base/BaseService'
 
 export class GlossaryService extends BaseResourceService {
     constructor() { super(GlossaryItem) }

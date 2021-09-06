@@ -1,5 +1,5 @@
-import { Discipline } from "./Discipline";
-import { BaseResourceService } from "../Base/BaseService";
+import { Discipline } from './Discipline'
+import { BaseResourceService } from '../Base/BaseService'
 
 export class DisciplineService extends BaseResourceService {
     constructor() { super(Discipline) }
