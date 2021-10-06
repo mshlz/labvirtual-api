@@ -1,7 +1,7 @@
 import { Document, Model } from 'mongoose'
 import { PaginationResult } from '../../utils/database/mongoose-paginator'
 
-export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>> } = any> {
+export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>> } = Model<any>> {
     constructor(protected model: T) { }
 
     public async create(data): Promise<any> {

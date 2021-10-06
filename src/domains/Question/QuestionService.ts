@@ -1,6 +1,7 @@
-import { IQuestion, Question } from './Question'
+import { escapeStringRegexp } from '../../utils/helpers'
 import { BaseResourceService } from '../Base/BaseService'
-import { Model } from 'mongoose'
+import { Question } from './Question'
+
 
 export class QuestionService extends BaseResourceService {
     constructor() { super(Question) }
@@ -10,14 +11,14 @@ export class QuestionService extends BaseResourceService {
     }
 
     public async simpleSearch(query: string) {
-        const model = this.model as Model<IQuestion>
+        const $regex = new RegExp(escapeStringRegexp(query), 'i')
 
-        return model.find({
+        return this.model.find({
             $or: [
-                { name: { $regex: `/${query}/i` }},
-                { text: { $regex: `/${query}/i` }},
+                { name: { $regex }},
+                { text: { $regex }},
             ]
-        }).lean(true).exec()
+        }).select('id name type text').limit(5).lean(true).exec()
     }
 }
 

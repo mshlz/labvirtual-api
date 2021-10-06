@@ -13,7 +13,7 @@ export class QuestionController {
         return quesitons
     }
 
-    @Post('search')
+    @Post('simple-search')
     @Validate(rules.simpleSearch)
     public async simpleSearch(@Body() data): Promise<ApiResponse> {
         const result = await questionService.simpleSearch(data.query)
