@@ -4,3 +4,5 @@ import { BaseResourceService } from '../Base/BaseService'
 export class ClassworkAssignedService extends BaseResourceService {
     constructor() { super(ClassworkAssigned) }
 }
+
+export const classworkAssignedService = new ClassworkAssignedService()

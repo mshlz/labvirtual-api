@@ -33,7 +33,7 @@ export type PaginationResult<T> = {
 const defaultOptions: Partial<PaginationOptions> = {
     collation: {},
     lean: false,
-    leanWithId: true,
+    leanWithId: !true,
     page: 1,
     per_page: 10,
     projection: {},

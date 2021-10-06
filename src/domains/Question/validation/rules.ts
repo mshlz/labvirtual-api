@@ -13,6 +13,10 @@ class Rules {
     onUpdate = {
         ...this.onCreate
     }
+
+    simpleSearch = {
+        query: Yup.string().trim().min(1).required()
+    }
 }
 
 export default new Rules()

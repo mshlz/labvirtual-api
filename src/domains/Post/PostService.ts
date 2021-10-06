@@ -10,3 +10,5 @@ export class PostService extends BaseResourceService {
         return result
     }
 }
+
+export const postService = new PostService()

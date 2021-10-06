@@ -16,13 +16,13 @@ export class BaseSchema<T = any> extends Schema {
         this.set('toJSON', {
             virtuals: true,
             versionKey: false,
-            transform: function (doc, ret) { delete ret._id }
+            // transform: function (doc, ret) { delete ret._id }
         })
 
         this.set('toObject', {
             virtuals: true,
             versionKey: false,
-            transform: function (doc, ret) { delete ret._id }
+            // transform: function (doc, ret) { delete ret._id }
         })
     }
 }

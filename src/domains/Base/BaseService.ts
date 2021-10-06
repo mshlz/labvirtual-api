@@ -1,8 +1,8 @@
 import { Document, Model } from 'mongoose'
 import { PaginationResult } from '../../utils/database/mongoose-paginator'
 
-export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>>} = any> {
-    constructor(private model: T) {}
+export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>> } = any> {
+    constructor(protected model: T) { }
 
     public async create(data): Promise<any> {
         const result = await new this.model(data).save()
@@ -11,7 +11,7 @@ export class BaseResourceService<T extends Model<Document> & { paginate?: (...ar
     }
 
     public async list(page?: number, per_page?: number, options?: any) {
-        return await this.model.paginate({}, { page, per_page, leanWithId: true, lean: true, ...options })
+        return await this.model.paginate({}, { page, per_page, /*leanWithId: true,*/ lean: true, ...options })
     }
 
     public async get(id: string) {

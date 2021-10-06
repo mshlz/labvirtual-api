@@ -34,3 +34,5 @@ export class ResetTokenService {
     }
 
 }
+
+export const resetTokenService = new ResetTokenService()

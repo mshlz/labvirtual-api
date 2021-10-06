@@ -14,3 +14,5 @@ export class QuizService extends BaseResourceService {
     }
 
 }
+
+export const quizService = new QuizService()

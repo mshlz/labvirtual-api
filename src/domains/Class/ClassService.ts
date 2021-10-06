@@ -15,3 +15,5 @@ export class ClassService extends BaseResourceService {
         return result
     }
 }
+
+export const classService = new ClassService()

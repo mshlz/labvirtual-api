@@ -9,3 +9,5 @@ export class ClassTopicService extends BaseResourceService {
         return topics
     }
 }
+
+export const classTopicService = new ClassTopicService()

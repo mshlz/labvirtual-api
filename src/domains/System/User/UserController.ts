@@ -3,7 +3,7 @@ import { ApiResponse } from '../../../interfaces/ApiResponse'
 import { UserFromSession } from '../../../utils/decorators/UserFromSession'
 import { Validate } from '../../../utils/validator/Validator'
 import { IUser } from './User'
-import { UserService } from './UserService'
+import { userService } from './UserService'
 import rules from './validation/rules'
 
 @JsonController('/users/')
@@ -18,15 +18,14 @@ export class UserController {
     public async update(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
         if (user.type != 'admin') delete data.type
 
-        const service = new UserService()
-        return { data: await service.update(user._id, data) }
+        return { data: await userService.update(user._id, data) }
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
-        
 
-        return { data: await (new UserService()).delete(id) }
+
+        return { data: await userService.delete(id) }
     }
 
 }

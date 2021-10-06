@@ -22,3 +22,5 @@ export class CommentService extends BaseResourceService {
         return super.delete(id)
     }
 }
+
+export const commentService = new CommentService()

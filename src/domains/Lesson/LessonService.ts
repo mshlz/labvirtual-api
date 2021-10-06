@@ -14,3 +14,5 @@ export class LessonService extends BaseResourceService {
     }
 
 }
+
+export const lessonService = new LessonService()

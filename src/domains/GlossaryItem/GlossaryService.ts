@@ -21,3 +21,5 @@ export class GlossaryService extends BaseResourceService {
     }
 
 }
+
+export const glossaryService = new GlossaryService()

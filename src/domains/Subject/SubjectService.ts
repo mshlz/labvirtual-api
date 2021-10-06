@@ -5,12 +5,14 @@ export class SubjectService extends BaseResourceService {
     constructor() { super(Subject) }
 
     public async list(page?: number, per_page?: number): Promise<any> {
-        return super.list(page, per_page, { populate: [{ path: 'discipline', select: 'name id'}] })
+        return super.list(page, per_page, { populate: [{ path: 'discipline', select: 'name id' }] })
     }
 
-    public async getFromDiscipline(discipline_id: string): Promise<any> {
-        const result = await Subject.find({ discipline: discipline_id as any }).exec()
+    public async getFromDisciplines(discipline_ids: string): Promise<any> {
+        const result = await Subject.find({ discipline: { $in: discipline_ids } as any }).exec()
         return result?.map(e => e.toJSON())
     }
 
 }
+
+export const subjectService = new SubjectService()

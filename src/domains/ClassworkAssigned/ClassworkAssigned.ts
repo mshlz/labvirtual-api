@@ -1,9 +1,9 @@
 import { model } from 'mongoose'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
 import { BaseSchema } from '../Base/BaseSchema'
-import { IClassEnrollment } from '../ClassEnrollment/ClassEnrollment'
 import { IClasswork } from '../Classwork/Classwork'
 import { IQuestion } from '../Question/Question'
+import { IUser } from '../System/User/User'
 
 interface IQuestionAnswer {
     question: IQuestion | string
@@ -19,7 +19,7 @@ interface IClassworkAssigned {
     grade: number
     dueDate: Date
     classwork: IClasswork | string
-    enrollment: IClassEnrollment | string
+    student: IUser | string
 }
 
 const ClassworkAssignedSchema = new BaseSchema<IClassworkAssigned>({
@@ -34,7 +34,7 @@ const ClassworkAssignedSchema = new BaseSchema<IClassworkAssigned>({
     grade: Number,
     dueDate: Date,
     classwork: { type: String, ref: 'Classwork' },
-    enrollment: { type: String, ref: 'ClassworkEnrollment' },
+    student: { type: String, ref: 'User' },
 }, { versionKey: false, timestamps: true })
 
 ClassworkAssignedSchema.plugin(mongoosePaginator)
