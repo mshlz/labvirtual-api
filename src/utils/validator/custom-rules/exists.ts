@@ -1,8 +1,8 @@
 import { Model } from 'mongoose'
 import { Yup } from '../Validator'
 
-Yup.addMethod(Yup.mixed, 'exists', function <T extends Model<any>>(model: T, field?: keyof T) {
-    return this.test('exists', 'Esta entrada não foi encontrada.', function (value) {
+Yup.addMethod(Yup.string, 'exists', function <T extends Model<any>>(model: T, field?: keyof T) {
+    return this.test('exists', 'Este item não foi encontrado.', function (value) {
         return existsModel(model, value, field)
     })
 })

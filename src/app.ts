@@ -8,6 +8,8 @@ import cors from 'cors'
 import { useExpressServer } from 'routing-controllers'
 import { connectDB } from './utils/database/connection'
 import { MONGODB_URI } from './config/env'
+import './utils/validator/custom-rules/exists'
+
 
 const createApp = async () => {
     try {
