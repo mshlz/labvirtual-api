@@ -10,7 +10,7 @@ interface IClassTopic {
 
 const ClassTopicSchema = new BaseSchema<IClassTopic>({
     name: String,
-    class: { type: String, ref: 'Class' },
+    class: { type: String, ref: 'Class', immutable: true },
 }, { versionKey: false, timestamps: true })
 
 ClassTopicSchema.plugin(mongoosePaginator)
