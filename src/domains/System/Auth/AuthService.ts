@@ -1,23 +1,24 @@
 import jwt from 'jsonwebtoken'
-import { UnauthorizedError } from 'routing-controllers'
+import { NotFoundError, UnauthorizedError } from 'routing-controllers'
 import { JWT_SECRET } from '../../../config/env'
 import { ResetTokenService } from '../ResetToken/ResetTokenService'
-import { IUser, User } from '../User/User'
+import { IUser, User, UserType } from '../User/User'
+import { userService } from '../User/UserService'
 
 export class AuthService {
-    public async login(data): Promise<{ token: string, user: Record<string, unknown> }> {
-        // validate
-        const user = await User.findOne({ email: data.email })
-        console.log(user)
-        if (!user || !user.checkPassword(data.password)) {
+    public async login(login: string, password: string) {
+        const user = await User.findOne({ email: login })
+        
+        if (!user || !user.checkPassword(password)) {
             throw new UnauthorizedError('Email / Senha incorretos')
         }
 
-        const token = jwt.sign({ user: user.id, type: user.type }, JWT_SECRET, { expiresIn: '24h' })
+        const token = jwt.sign({ user: user._id, type: user.type }, JWT_SECRET, { expiresIn: '24h' })
 
         return {
-            token, user: {
-                id: user._id,
+            token,
+            user: {
+                _id: user._id,
                 name: user.name,
                 email: user.email,
                 type: user.type
@@ -25,42 +26,40 @@ export class AuthService {
         }
     }
 
-    public async register(data): Promise<IUser> {
-        let user = null
-        user = await User.create(data)
-        
-        return user.toPublicJSON()
+    public async register(data: any, userType: UserType): Promise<IUser> {
+        const result = await userService.create(data, userType)
+
+        return result
     }
 
-    public async generateResetToken(data) {
-        const user = await User.findOne({ email: data.email })
+    public async generateResetToken(email: string) {
+        const user = await User.findOne({ email }).select('_id')
 
         if (!user) {
-            throw new Error('User not found')
+            throw new NotFoundError('User not found')
         }
 
-        const resetToken = await ResetTokenService.create(user.id)
+        const resetToken = await ResetTokenService.create(user._id)
 
         return { token: resetToken.token }
     }
 
-    public async resetPassword(data) {
-        const token = await ResetTokenService.use(data.token)
+    public async resetPassword(token: string, newPassword: string) {
+        const resetToken = await ResetTokenService.use(token)
 
-        if (!token) {
+        if (!resetToken) {
             throw new Error('Token not found')
         }
 
-        const user = await User.findOne({_id: token.parent})
+        const user = await User.findOne({ _id: resetToken.userId })
 
-        if(user) {
-            user.password = data.password
+        if (user) {
+            user.password = newPassword
             await user.save()
         }
 
-        return { updated: !!user }
+        return !!user
     }
-
 }
 
 export const authService = new AuthService()

@@ -4,6 +4,7 @@ import { BaseSchema } from '../../Base/BaseSchema'
 import mongoosePaginator from '../../../utils/database/mongoose-paginator'
 import { IClass } from '../../Class/Class'
 
+export type UserType = 'TEACHER' | 'STUDENT' | 'ADMIN'
 interface IUser {
     _id: string
     name: string
@@ -13,7 +14,7 @@ interface IUser {
     password: string
     school: string
     course: string
-    type: string
+    type: UserType
     classes: IClass[] | string[]
     meta: Record<string, unknown>
     checkPassword: (p: string) => boolean
@@ -22,7 +23,7 @@ interface IUser {
 const UserSchema = new BaseSchema<IUser>({
     name: String,
     email: { type: String, unique: true },
-    password: String,
+    password: { type: String, select: false },
     phone: String,
     birthdate: String,
     school: String,

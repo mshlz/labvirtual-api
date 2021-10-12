@@ -9,25 +9,25 @@ export class AuthController {
     @Post('login')
     @Validate(rules.onLogin)
     public async login(@Body() data: any): Promise<ApiResponse> {
-        const service = authService
-        return { data: await service.login(data) }
+        return { data: await authService.login(data.email, data.password) }
     }
 
     @Post('register')
     @Validate(rules.onRegister)
     public async register(@Body() data: any): Promise<ApiResponse> {
-        const service = authService
-        return { data: await service.register(data) }
+        const userType = data.type === 'teacher' ? 'TEACHER' : 'STUDENT'
+        delete data.type
+
+        return { data: await authService.register(data, userType) }
     }
 
     @Post('forgot-password')
     @Validate(rules.onForgotPassword)
-    public async generateResetToken(@Body() data: any): Promise<ApiResponse> {
-        const service = authService
-        const result = await service.generateResetToken({ email: data.email })
+    public async forgotPassword(@Body() data: any): Promise<ApiResponse> {
+        const resetToken = await authService.generateResetToken(data.email)
 
-        // send mail
-        console.log('RESET TOKEN: ', result.token)
+        // TODO: send mail
+        console.log('RESET TOKEN: ', resetToken.token)
 
         return { data: true }
     }
@@ -35,8 +35,7 @@ export class AuthController {
     @Post('reset-password')
     @Validate(rules.onResetPassword)
     public async resetPassword(@Body() data: any): Promise<ApiResponse> {
-        const service = authService
-        const result = await service.resetPassword(data)
+        const result = await authService.resetPassword(data.token, data.password)
 
         return { data: result }
     }
