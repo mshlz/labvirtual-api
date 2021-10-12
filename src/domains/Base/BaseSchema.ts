@@ -13,6 +13,8 @@ export class BaseSchema<T = any> extends Schema {
 
         super(definition, options)
 
+        this.set('id', false)
+
         this.set('toJSON', {
             virtuals: true,
             versionKey: false,
