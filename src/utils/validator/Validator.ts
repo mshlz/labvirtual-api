@@ -1,5 +1,7 @@
 import { HttpError } from 'routing-controllers'
 import * as Yup from 'yup'
+import {ptForm} from 'yup-locale-pt'
+Yup.setLocale(ptForm)
 export { Yup }
 
 export const Validate = (rules) => {

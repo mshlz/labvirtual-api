@@ -3027,6 +3027,11 @@ yn@3.1.1:
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
   integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
+yup-locale-pt@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/yup-locale-pt/-/yup-locale-pt-0.0.8.tgz#2fc1dfed5884193dedc2a708160678c4cd31c0a3"
+  integrity sha512-8Y/sDpvgApcOtg61UE/01yz+MiSgxoUcs7Njv7CWh5Sw3ez+8avu+GJzotTd5atWJ5f9pcVMkVE4BUJYi8c+3Q==
+
 yup@^0.32.9:
   version "0.32.9"
   resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.9.tgz#9367bec6b1b0e39211ecbca598702e106019d872"
