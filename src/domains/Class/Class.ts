@@ -20,7 +20,7 @@ const ClassSchema = new BaseSchema<IClass>({
     code: { type: String, default: () => getNanoId(), immutable: true },
     teacher: { type: String, ref: 'User' },
     discipline: { type: String, ref: 'Discipline' },
-    students: [{ type: String, ref: 'User' }]
+    students: [{ type: String, ref: 'User', select: false }]
 }, { versionKey: false, timestamps: true })
 
 ClassSchema.plugin(mongoosePaginator)

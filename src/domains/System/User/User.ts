@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { model } from 'mongoose'
 import { BaseSchema } from '../../Base/BaseSchema'
 import mongoosePaginator from '../../../utils/database/mongoose-paginator'
+import { IClass } from '../../Class/Class'
 
 interface IUser {
     _id: string
@@ -13,9 +14,9 @@ interface IUser {
     school: string
     course: string
     type: string
+    classes: IClass[] | string[]
     meta: Record<string, unknown>
     checkPassword: (p: string) => boolean
-    toPublicJSON: () => Record<string, string>
 }
 
 const UserSchema = new BaseSchema<IUser>({
@@ -27,8 +28,9 @@ const UserSchema = new BaseSchema<IUser>({
     school: String,
     course: String,
     type: String,
+    classes: [{ type: String, ref: 'Class', select: false }],
     meta: Object
-}, { versionKey: false, timestamps: true, toObject: { getters: true } })
+}, { versionKey: false, timestamps: true })
 
 // BeforeSave hook
 UserSchema.pre('save', function (next) {
@@ -45,20 +47,6 @@ UserSchema.pre('save', function (next) {
 
 UserSchema.methods.checkPassword = function (raw): boolean {
     return bcrypt.compareSync(raw, this.password)
-}
-
-UserSchema.methods.toPublicJSON = function () {
-    return {
-        id: this.id,
-        name: this.name,
-        email: this.email,
-        phone: this.phone,
-        birthdate: this.birthdate,
-        school: this.school,
-        course: this.course,
-        type: this.type,
-        meta: this.meta,
-    }
 }
 
 UserSchema.plugin(mongoosePaginator)

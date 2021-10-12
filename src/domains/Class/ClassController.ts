@@ -1,6 +1,10 @@
-import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
+import { Body, Delete, Get, JsonController, NotFoundError, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { UserFromSession } from '../../utils/decorators/UserFromSession'
 import { Validate } from '../../utils/validator/Validator'
+import { IUser } from '../System/User/User'
+import { Class } from './Class'
+import { classEnrollmentService } from './ClassEnrollmentService'
 import { classService } from './ClassService'
 import rules from './validation/rules'
 
@@ -11,6 +15,14 @@ export class ClassController {
         const classes = await classService.list(query.page, query.per_page)
 
         return classes
+    }
+
+    @Get('my-classes')
+    public async myClasses(@UserFromSession() user: IUser): Promise<ApiResponse> {
+        console.log(user)
+        const classes = await classService.getClassesFromUser(user._id)
+
+        return { data: classes }
     }
 
     @Get(':id')
@@ -32,6 +44,26 @@ export class ClassController {
     public async create(@Body() data: any): Promise<ApiResponse> {
 
         return { data: await classService.create(data) }
+    }
+
+    @Post('enroll')
+    @Validate(rules.onEnroll)
+    public async enroll(@Body() data: any, @UserFromSession() user): Promise<ApiResponse> {
+        const klass = await Class.findOne({ code: data.code }).select('_id name').exec()
+
+        if (!klass) {
+            throw new NotFoundError('Class not found')
+        }
+
+        await classEnrollmentService.enrollUser(user._id, klass._id)
+
+        return { data: klass.toObject() }
+    }
+
+    @Post('unenroll')
+    @Validate(rules.onUnenroll)
+    public async unenroll(@Body() data: any, @UserFromSession() user): Promise<ApiResponse> {
+        return { data: await classEnrollmentService.unenrollUser(user._id, data.classId) }
     }
 
     @Post(':id')

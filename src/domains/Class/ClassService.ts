@@ -1,5 +1,6 @@
-import { Class } from './Class'
 import { BaseResourceService } from '../Base/BaseService'
+import { User } from '../System/User/User'
+import { Class } from './Class'
 
 export class ClassService extends BaseResourceService {
     constructor() { super(Class) }
@@ -13,6 +14,22 @@ export class ClassService extends BaseResourceService {
             .exec()
 
         return result
+    }
+
+    public async getClassesFromUser(userId: string) {
+        const user = await User.findById(userId)
+            .populate({
+                path: 'classes',
+                select: '_id name code teacher',
+                populate: {
+                    path: 'teacher',
+                    select: '_id name'
+                }
+            })
+            .lean()
+            .exec()
+
+        return user.classes
     }
 }
 
