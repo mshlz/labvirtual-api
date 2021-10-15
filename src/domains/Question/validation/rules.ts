@@ -1,11 +1,16 @@
 import { Yup } from '../../../utils/validator/Validator'
+import { QuestionTypeArray } from '../Question'
 
+const alternativeShape = Yup.object().shape({
+    text: Yup.string().required(),
+    correct: Yup.boolean()
+})
 class Rules {
     onCreate = {
-        name: Yup.string().trim().min(3),
+        name: Yup.string().trim().required().min(3),
         text: Yup.string().trim(),
-        type: Yup.string().trim().oneOf(['dissertative', 'single-choice', 'multiple-choice']),
-        alternatives: Yup.array(),
+        type: Yup.string().trim().required().oneOf([...QuestionTypeArray]),
+        alternatives: Yup.array().of(alternativeShape),
         disciplines: Yup.array().of(Yup.string().uuid()),
         subjects: Yup.array().of(Yup.string().uuid()),
     }

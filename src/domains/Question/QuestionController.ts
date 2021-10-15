@@ -1,5 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { questionService } from './QuestionService'
 import rules from './validation/rules'
@@ -18,39 +19,35 @@ export class QuestionController {
     public async simpleSearch(@Body() data): Promise<ApiResponse> {
         const result = await questionService.simpleSearch(data.query)
 
-        return {
-            data: result
-        }
+        return success(result)
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
         const question = await questionService.get(id)
 
-        return { data: question }
+        return success(question)
     }
 
     @Post()
     @Validate(rules.onCreate)
     public async create(@Body() data: any): Promise<ApiResponse> {
-        
+        questionService.validateAlternatives(data)
 
-        return { data: await questionService.create(data) }
+        return success(await questionService.create(data))
     }
 
     @Post(':id')
     @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
-        
+        questionService.validateAlternatives(data)
 
-        return { data: await questionService.update(id, data) }
+        return success(await questionService.update(id, data))
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
-        
-
-        return { data: await questionService.delete(id) }
+        return success(await questionService.delete(id))
     }
 
 }

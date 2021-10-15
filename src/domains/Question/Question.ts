@@ -1,45 +1,46 @@
-import { model } from 'mongoose'
+import { model, Schema } from 'mongoose'
 import { BaseSchema } from '../Base/BaseSchema'
 import { IDiscipline } from '../Discipline/Discipline'
 import { ISubject } from '../Subject/Subject'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
+import { getNanoId } from '../../utils/nanoid'
 
-export interface Alternative {
+interface IAlternative {
+    code: string
     correct: boolean
     text: string
 }
 
-const AlternativeSchema = new BaseSchema<Alternative & { _id: any }>({
-    _id: {
+const AlternativeSchema = new Schema<IAlternative>({
+    code: {
         type: String,
-        default: () => Date.now().toString(36) + Math.round(Math.random() * 100000).toString(36)
+        default: getNanoId(5)
     },
-    text: String,
+    text: { type: String, required: true },
     correct: Boolean
-}, { versionKey: false, timestamps: false })
+}, { versionKey: false, timestamps: false, _id: false })
 
-interface IQuestion {
+export const QuestionTypeArray = ['DISSERTATIVE', 'SINGLE_CHOICE', 'MULTIPLE_CHOICE'] as const
+export type QuestionType = typeof QuestionTypeArray[number]
+
+export interface IQuestion {
     name: string
-    text: string
-    type: string
-    disciplines: string[] | IDiscipline[]
-    subjects: string[] | ISubject[]
-    metadata: Record<string, any>
-    alternatives: Alternative[]
+    text?: string
+    type: QuestionType
+    disciplines?: string[] | IDiscipline[]
+    subjects?: string[] | ISubject[]
+    alternatives?: IAlternative[]
 }
 
 const QuestionSchema = new BaseSchema<IQuestion>({
-    name: String,
-    text: String,
-    type: String,
+    name: { type: String, required: true },
+    text: { type: String },
+    type: { type: String, required: true, enum: QuestionTypeArray },
     disciplines: [{ type: String, ref: 'Discipline' }],
     subjects: [{ type: String, ref: 'Subject' }],
     alternatives: [AlternativeSchema],
-    metadata: Object
 }, { versionKey: false, timestamps: true })
 
 QuestionSchema.plugin(mongoosePaginator)
 
-const Question = model<IQuestion>('Question', QuestionSchema)
-
-export { Question, IQuestion }
+export const Question = model<IQuestion>('Question', QuestionSchema)
