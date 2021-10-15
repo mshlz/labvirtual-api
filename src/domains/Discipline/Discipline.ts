@@ -2,20 +2,20 @@ import { model } from 'mongoose'
 import { BaseSchema } from '../Base/BaseSchema'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
-interface IDiscipline {
+export interface IDiscipline {
     name: string
-    code: string
-    metadata: Record<string, any>
 }
 
 const DisciplineSchema = new BaseSchema<IDiscipline>({
     name: String,
-    code: String,
-    metadata: Object
 }, { versionKey: false, timestamps: true })
+
+DisciplineSchema.virtual('subjects', {
+    ref: 'Subject',
+    localField: '_id',
+    foreignField: 'discipline'
+})
 
 DisciplineSchema.plugin(mongoosePaginator)
 
-const Discipline = model<IDiscipline>('Discipline', DisciplineSchema)
-
-export { Discipline, IDiscipline }
+export const Discipline = model<IDiscipline>('Discipline', DisciplineSchema)

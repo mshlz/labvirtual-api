@@ -2,7 +2,7 @@ import { Yup } from '../../../utils/validator/Validator'
 
 class Rules {
     onCreate = {
-        name: Yup.string().trim().min(3)
+        name: Yup.string().trim().required().min(3)
     }
 
     onUpdate = {

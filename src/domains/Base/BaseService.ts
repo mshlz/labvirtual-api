@@ -1,7 +1,8 @@
 import { Document, Model } from 'mongoose'
+import { NotFoundError } from 'routing-controllers'
 import { PaginationResult } from '../../utils/database/mongoose-paginator'
 
-export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>> } = Model<any>> {
+export class BaseResourceService<T extends Model<Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>> } = any> {
     constructor(protected model: T) { }
 
     public async create(data): Promise<any> {
@@ -16,23 +17,32 @@ export class BaseResourceService<T extends Model<Document> & { paginate?: (...ar
 
     public async get(id: string) {
         const result = await this.model.findById(id)
+
+        if (!result) {
+            throw new NotFoundError('Objeto não encontrado')
+        }
+
         return result?.toJSON()
     }
 
-    public async update(id: string, data: any): Promise<any> {
+    public async update(id: string, data: any) {
         const result = await this.model.updateOne({ _id: id }, data)
-
-        return {
-            modified: result.modifiedCount > 0
+        
+        if (result.modifiedCount === 0) {
+            throw new NotFoundError('Objeto não encontrado')
         }
+
+        return true
     }
 
-    public async delete(id: string): Promise<any> {
+    public async delete(id: string){
         const result = await this.model.deleteOne({ _id: id })
 
-        return {
-            deleted: result.deletedCount > 0
+        if (result.deletedCount === 0) {
+            throw new NotFoundError('Objeto não encontrado')
         }
+
+        return true
     }
 
 }
