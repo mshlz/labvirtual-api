@@ -9,8 +9,7 @@ export class SubjectService extends BaseResourceService {
     }
 
     public async getFromDisciplines(discipline_ids: string): Promise<any> {
-        const result = await Subject.find({ discipline: { $in: discipline_ids } as any }).exec()
-        return result?.map(e => e.toJSON())
+        return Subject.find({ discipline: { $in: discipline_ids } as any }).select('-createdAt -updatedAt').lean(true).exec()
     }
 
 }

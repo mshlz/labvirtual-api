@@ -1,6 +1,7 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
-import { Validate, Yup } from '../../utils/validator/Validator'
+import { success } from '../../utils/http/responses'
+import { Validate } from '../../utils/validator/Validator'
 import { subjectService } from './SubjectService'
 import rules from './validation/rules'
 
@@ -9,48 +10,34 @@ export class SubjectController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
         const subjects = await subjectService.list(query.page, query.per_page)
-
         return subjects
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const subject = await subjectService.get(id)
-
-        return { data: subject }
+        return success(await subjectService.get(id))
     }
 
-    @Post('get/disciplines') // TODO invert this ? 
-    @Validate({
-        disciplines: Yup.array().of(Yup.string().uuid())
-    })
-    public async get(@Body() data: any): Promise<ApiResponse> {
-        console.log(subjectService)
-        const result = await subjectService.getFromDisciplines(data.disciplines)
-
-        return { data: result }
+    @Post('from/disciplines')
+    @Validate(rules.getFromDisciplines)
+    public async getFromDisciplines(@Body() data: any): Promise<ApiResponse> {
+        return success(await subjectService.getFromDisciplines(data.disciplines))
     }
 
     @Post()
     @Validate(rules.onCreate)
     public async create(@Body() data: any): Promise<ApiResponse> {
-        
-
-        return { data: await subjectService.create(data) }
+        return success(await subjectService.create(data))
     }
 
     @Post(':id')
     @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
-        
-
-        return { data: await subjectService.update(id, data) }
+        return success(await subjectService.update(id, data))
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
-        
-
-        return { data: await subjectService.delete(id) }
+        return success(await subjectService.delete(id))
     }
 }

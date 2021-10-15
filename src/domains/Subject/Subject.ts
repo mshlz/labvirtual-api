@@ -3,20 +3,16 @@ import { BaseSchema } from '../Base/BaseSchema'
 import { IDiscipline } from '../Discipline/Discipline'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
-interface ISubject {
+export interface ISubject {
     name: string
-    code: string
-    discipline: string | IDiscipline
+    discipline: IDiscipline | string
 }
 
 const SubjectSchema = new BaseSchema<ISubject>({
-    name: String,
-    code: String,
-    discipline: { type: String, ref: 'Discipline' },
+    name: { type: String, required: true },
+    discipline: { type: String, ref: 'Discipline', required: true },
 }, { versionKey: false, timestamps: true })
 
 SubjectSchema.plugin(mongoosePaginator)
 
-const Subject = model<ISubject>('Subject', SubjectSchema)
-
-export { Subject, ISubject }
+export const Subject = model<ISubject>('Subject', SubjectSchema)
