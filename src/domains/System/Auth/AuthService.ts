@@ -7,7 +7,7 @@ import { userService } from '../User/UserService'
 
 export class AuthService {
     public async login(login: string, password: string) {
-        const user = await User.findOne({ email: login })
+        const user = await User.findOne({ email: login }).select('+password')
         
         if (!user || !user.checkPassword(password)) {
             throw new UnauthorizedError('Email / Senha incorretos')

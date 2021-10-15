@@ -10,13 +10,13 @@ import rules from './validation/rules'
 export class UserController {
     @Get('me')
     public async me(@UserFromSession() user: IUser): Promise<ApiResponse> {
-        return { data: user.toPublicJSON() }
+        return { data: user }
     }
 
     @Post('update')
     @Validate(rules.onUpdate)
     public async update(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
-        if (user.type != 'admin') delete data.type
+        if (user.type !== 'ADMIN') delete data.type
 
         return { data: await userService.update(user._id, data) }
     }
