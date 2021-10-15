@@ -1,6 +1,6 @@
-import { HttpError } from 'routing-controllers'
 import * as Yup from 'yup'
-import {ptForm} from 'yup-locale-pt'
+import { ptForm } from 'yup-locale-pt'
+import { ValidationError } from '../http/responses'
 Yup.setLocale(ptForm)
 export { Yup }
 
@@ -24,9 +24,7 @@ export const Validate = (rules) => {
                         validationErrors[err.path] = err.message
                     })
 
-                    const error = new HttpError(422, 'ValidationError') as any
-                    error.errors = validationErrors
-                    throw error
+                    throw new ValidationError(validationErrors)
                 }
                 throw err
             }
