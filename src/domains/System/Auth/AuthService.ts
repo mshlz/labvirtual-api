@@ -6,14 +6,14 @@ import { IUser, User, UserType } from '../User/User'
 import { userService } from '../User/UserService'
 
 export class AuthService {
-    public async login(login: string, password: string) {
+    public async login(login: string, password: string, extendSession?: boolean) {
         const user = await User.findOne({ email: login }).select('+password')
-        
+
         if (!user || !user.checkPassword(password)) {
             throw new UnauthorizedError('Email / Senha incorretos')
         }
 
-        const token = jwt.sign({ user: user._id, type: user.type }, JWT_SECRET, { expiresIn: '24h' })
+        const token = jwt.sign({ user: user._id, type: user.type }, JWT_SECRET, { expiresIn: extendSession ? '30d' : '24h' })
 
         return {
             token,

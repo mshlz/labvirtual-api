@@ -4,7 +4,8 @@ import { User } from '../../User/User'
 class Rules {
     onLogin = {
         email: Yup.string().required().email(),
-        password: Yup.string().required()
+        password: Yup.string().required(),
+        remember: Yup.boolean()
     }
 
     onRegister = {
