@@ -6,9 +6,10 @@ import { IClass } from '../../Class/Class'
 
 export type UserType = 'TEACHER' | 'STUDENT' | 'ADMIN'
 interface IUser {
-    _id: string
+    _id: string // TODO find a better way to resolve typing for this
     name: string
     email: string
+    active: boolean
     phone: string
     birthdate: string
     password: string
@@ -21,14 +22,15 @@ interface IUser {
 }
 
 const UserSchema = new BaseSchema<IUser>({
-    name: String,
-    email: { type: String, unique: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, select: false },
+    active: { type: Boolean, default: false },
     phone: String,
     birthdate: String,
     school: String,
     course: String,
-    type: String,
+    type: { type: String, required: true, default: 'STUDENT' },
     classes: [{ type: String, ref: 'Class', select: false }],
     meta: Object
 }, { versionKey: false, timestamps: true })

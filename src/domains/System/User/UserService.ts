@@ -4,7 +4,7 @@ import { IUser, User, UserType } from './User'
 export class UserService extends BaseResourceService {
     constructor() { super(User) }
 
-    public async create(data: IUser, type?: UserType) {
+    public async create(data: IUser, type?: UserType, active?: boolean) {
         const user = new User()
         user.name = data.name
         user.email = data.email
@@ -13,6 +13,7 @@ export class UserService extends BaseResourceService {
         user.password = data.password
         user.school = data.school
         user.type = type || 'STUDENT'
+        user.active = active || false
         
         await user.save()
 
