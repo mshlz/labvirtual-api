@@ -16,18 +16,18 @@ export class BaseResourceService<T extends Model<Document> & { paginate?: (...ar
     }
 
     public async get(id: string) {
-        const result = await this.model.findById(id)
+        const result = await this.model.findById(id).lean(true)
 
         if (!result) {
             throw new NotFoundError('Objeto não encontrado')
         }
 
-        return result?.toJSON()
+        return result
     }
 
     public async update(id: string, data: any) {
         const result = await this.model.updateOne({ _id: id }, data)
-        
+
         if (result.modifiedCount === 0) {
             throw new NotFoundError('Objeto não encontrado')
         }
@@ -35,7 +35,7 @@ export class BaseResourceService<T extends Model<Document> & { paginate?: (...ar
         return true
     }
 
-    public async delete(id: string){
+    public async delete(id: string) {
         const result = await this.model.deleteOne({ _id: id })
 
         if (result.deletedCount === 0) {
@@ -44,5 +44,23 @@ export class BaseResourceService<T extends Model<Document> & { paginate?: (...ar
 
         return true
     }
+
+    // no plan to use now
+    // protected async middleware(fn: () => Promise<T>, condition?: (result: T) => boolean, exception?: (result: T) => never) {
+    //     if (!condition) {
+    //         condition = (result: T) => !!result
+    //     }
+    //     if (!exception) {
+    //         exception = (result: T) => { throw new NotFoundError('Objeto não encontrado') }
+    //     }
+
+    //     const result = await fn()
+
+    //     if (!condition(result)) {
+    //         exception(result)
+    //     }
+
+    //     return result
+    // }
 
 }
