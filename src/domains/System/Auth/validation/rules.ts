@@ -15,6 +15,11 @@ class Rules {
         type: Yup.string().required().oneOf(['teacher', 'student'])
     }
 
+    onConfirmAccount = {
+        user_id: Yup.string().trim().required().uuid().exists(User),
+        token: Yup.string().trim().required()
+    }
+
     onForgotPassword = {
         email: Yup.string().required().email(),
     }

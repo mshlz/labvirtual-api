@@ -1,11 +1,11 @@
 import { Request } from 'express'
 import jwt from 'jsonwebtoken'
 import { ExpressMiddlewareInterface, Middleware, UnauthorizedError } from 'routing-controllers'
-import { JWT_SECRET } from '../config/env'
+import { ENV, JWT_SECRET } from '../config/env'
 
 @Middleware({ type: 'before' })
 export class AuthMiddleware implements ExpressMiddlewareInterface {
-    private skipRoutes = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password']
+    private skipRoutes = ['/health', '/auth/login', '/auth/register', '/auth/confirm-account', '/auth/forgot-password', '/auth/reset-password']
 
     use(request: Request, response: any, next: (err?: any) => any) {
         if (this.skipRoutes.includes(request.url)) return next()
@@ -14,7 +14,7 @@ export class AuthMiddleware implements ExpressMiddlewareInterface {
 
         const payload = jwt.decode(token) as any
 
-        if (process.env.ENV != 'dev' && payload.type != 'admin') {
+        if (ENV != 'dev' && payload.type != 'admin') {
             throw new UnauthorizedError('not authorized! insuficient permission')
         }
 

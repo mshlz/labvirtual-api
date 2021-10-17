@@ -23,6 +23,12 @@ export class AuthController {
         return success(await authService.register(data, userType))
     }
 
+    @Post('confirm-account')
+    @Validate(rules.onConfirmAccount)
+    public async confirmAccount(@Body() data: fromRule<typeof rules.onConfirmAccount>): Promise<ApiResponse> {
+        return success(await authService.confirmAccount(data.user_id, data.token))
+    }
+
     @Post('forgot-password')
     @Validate(rules.onForgotPassword)
     public async forgotPassword(@Body() data: fromRule<typeof rules.onForgotPassword>): Promise<ApiResponse> {
