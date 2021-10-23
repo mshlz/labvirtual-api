@@ -37,7 +37,7 @@ export class LessonController {
     }
 
     @Post('from/subjects')
-    @Validate(rules.getFromDisciplines)
+    @Validate(rules.getFromSubjects)
     public async getFromSubjects(@Body() data: any): Promise<ApiResponse> {
         return success(await lessonService.getFromSubjects(data.subjects))
     }
