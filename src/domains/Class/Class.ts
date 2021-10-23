@@ -5,7 +5,7 @@ import mongoosePaginator from '../../utils/database/mongoose-paginator'
 import { IUser } from '../System/User/User'
 import { getNanoId } from '../../utils/nanoid'
 
-interface IClass {
+export interface IClass {
     name: string
     description: string
     code: string
@@ -25,6 +25,4 @@ const ClassSchema = new BaseSchema<IClass>({
 
 ClassSchema.plugin(mongoosePaginator)
 
-const Class = model<IClass>('Class', ClassSchema)
-
-export { Class, IClass }
+export const Class = model<IClass>('Class', ClassSchema)
