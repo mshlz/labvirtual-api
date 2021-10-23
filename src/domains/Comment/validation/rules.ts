@@ -3,11 +3,11 @@ import { Yup } from '../../../utils/validator/Validator'
 class Rules {
     onCreate = {
         text: Yup.string().trim().min(3).max(1000).required(),
-        post_uuid: Yup.string().uuid().required()
+        postId: Yup.string().uuid().required()
     }
 
     onUpdate = {
-        text: Yup.string().trim().min(3).max(1000).required(),
+        text: this.onCreate.text,
     }
 }
 

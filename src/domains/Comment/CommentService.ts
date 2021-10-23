@@ -1,13 +1,13 @@
-import { Comment } from './Comment'
+import { Comment, IComment } from './Comment'
 import { Post } from '../Post/Post'
 import { BaseResourceService } from '../Base/BaseService'
 
 export class CommentService extends BaseResourceService {
     constructor() { super(Comment) }
 
-    public async create(data): Promise<any> {
-        const post = await Post.findOne({ _id: data.post_uuid })
-        const result = await super.create({ ...data, post: data.post_uuid })
+    public async create(data: IComment): Promise<any> {
+        const post = await Post.findOne({ _id: data.post })
+        const result = await super.create({ ...data, post: data.post })
 
         post.comments.push(result.id)
         await post.save()
