@@ -4,7 +4,7 @@ import { Class } from '../../Class/Class'
 class Rules {
     onCreate = {
         name: Yup.string().trim().required().min(3),
-        class: Yup.string().trim().required().uuid().exists(Class)
+        classId: Yup.string().trim().required().uuid().exists(Class)
     }
 
     onUpdate = {

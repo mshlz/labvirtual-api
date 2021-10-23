@@ -28,7 +28,7 @@ export class ClassTopicController {
     @Post()
     @Validate(rules.onCreate)
     public async create(@Body() data: any): Promise<ApiResponse> {
-        return success(await classTopicService.create(data))
+        return success(await classTopicService.create({ ...data, class: data.classId }))
     }
 
     @Post(':id')
