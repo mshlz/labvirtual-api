@@ -16,7 +16,7 @@ export class PostController {
         return posts
     }
 
-    @Get('from/class')
+    @Post('from/class')
     @Validate(rules.getFromClass)
     public async getFromClass(@Body() data): Promise<ApiResponse> {
         return success(await postService.getFromClass(data.classId))
