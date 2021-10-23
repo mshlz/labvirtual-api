@@ -1,13 +1,18 @@
 import { Yup } from '../../../utils/validator/Validator'
+import { Class } from '../../Class/Class'
 
 class Rules {
     onCreate = {
         text: Yup.string().trim().max(5000).required(),
-        class_uuid: Yup.string().trim().uuid().required(),
+        classId: Yup.string().trim().uuid().required(),
     }
 
     onUpdate = {
         text: this.onCreate.text
+    }
+    
+    getFromClass = {
+        classId: Yup.string().required().uuid().exists(Class)
     }
 }
 

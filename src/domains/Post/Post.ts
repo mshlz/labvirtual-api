@@ -5,22 +5,20 @@ import { IClass } from '../Class/Class'
 import { IComment } from '../Comment/Comment'
 import { IUser } from '../System/User/User'
 
-interface IPost {
+export interface IPost {
     author: IUser
     text: string
     class: IClass | string
-    comments: IComment[]
+    comments: string[] | IComment[]
 }
 
 const PostSchema = new BaseSchema<IPost>({
-    author: { type: String, ref: 'User' },
-    class: { type: String, ref: 'Class' },
+    author: { type: String, ref: 'User', required: true, immutable: true },
+    class: { type: String, ref: 'Class', required: true, immutable: true },
     text: String,
     comments: [{ type: String, ref: 'Comment' }]
 }, { versionKey: false, timestamps: true })
 
 PostSchema.plugin(mongoosePaginator)
 
-const Post = model<IPost>('Post', PostSchema)
-
-export { Post, IPost }
+export const Post = model<IPost>('Post', PostSchema)
