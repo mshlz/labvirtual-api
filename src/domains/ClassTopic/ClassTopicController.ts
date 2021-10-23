@@ -1,5 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { classTopicService } from './ClassTopicService'
 import rules from './validation/rules'
@@ -13,38 +14,32 @@ export class ClassTopicController {
         return topics
     }
 
-    @Get('by-class/:id')
-    public async getByClassId(@Param('id') id: string): Promise<ApiResponse> {
-        const topic = await classTopicService.getByClassId(id)
-
-        return { data: topic }
+    @Post('from/classes')
+    @Validate(rules.getFromClasses)
+    public async getFromClasses(@Body() body): Promise<ApiResponse> {
+        return success(await classTopicService.getFromClasses(body.classes))
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const topic = await classTopicService.get(id)
-
-        return { data: topic }
+        return success(await classTopicService.get(id))
     }
 
     @Post()
     @Validate(rules.onCreate)
     public async create(@Body() data: any): Promise<ApiResponse> {
-
-        return { data: await classTopicService.create(data) }
+        return success(await classTopicService.create(data))
     }
 
     @Post(':id')
     @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
-
-        return { data: await classTopicService.update(id, data) }
+        return success(await classTopicService.update(id, data))
     }
 
     @Delete(':id')
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
-
-        return { data: await classTopicService.delete(id) }
+        return success(await classTopicService.delete(id))
     }
 
 }

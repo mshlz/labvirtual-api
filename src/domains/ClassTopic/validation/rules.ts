@@ -10,6 +10,11 @@ class Rules {
     onUpdate = {
         name: this.onCreate.name,
     }
+
+    getFromClasses = {
+        classes: Yup.array().of(Yup.string().uuid())
+    }
+
 }
 
 export default new Rules()
