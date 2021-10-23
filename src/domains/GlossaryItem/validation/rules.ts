@@ -11,6 +11,10 @@ class Rules {
     onUpdate = {
         ...this.onCreate
     }
+
+    getFromDisciplines = {
+        disciplines: Yup.array().of(Yup.string().uuid())
+    }
 }
 
 export default new Rules()
