@@ -5,7 +5,7 @@ import mongoosePaginator from '../../../utils/database/mongoose-paginator'
 import { IClass } from '../../Class/Class'
 
 export type UserType = 'TEACHER' | 'STUDENT' | 'ADMIN'
-interface IUser {
+export interface IUser {
     _id: string // TODO find a better way to resolve typing for this
     name: string
     email: string
@@ -54,6 +54,4 @@ UserSchema.methods.checkPassword = function (raw): boolean {
 
 UserSchema.plugin(mongoosePaginator)
 
-const User = model<IUser>('User', UserSchema)
-
-export { User, IUser }
+export const User = model<IUser>('User', UserSchema)
