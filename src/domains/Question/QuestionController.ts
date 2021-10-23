@@ -17,16 +17,12 @@ export class QuestionController {
     @Post('simple-search')
     @Validate(rules.simpleSearch)
     public async simpleSearch(@Body() data): Promise<ApiResponse> {
-        const result = await questionService.simpleSearch(data.query)
-
-        return success(result)
+        return success(await questionService.simpleSearch(data.query))
     }
 
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
-        const question = await questionService.get(id)
-
-        return success(question)
+        return success(await questionService.get(id))
     }
 
     @Post()
