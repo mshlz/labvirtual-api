@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose'
 
-export const TokenTypeArray = ['ACCOUNT_CONFIRM'] as const
+export const TokenTypeArray = ['ACCOUNT_CONFIRM', 'RESET_PASSWORD'] as const
 export type TokenType = typeof TokenTypeArray[number]
 
 export interface IToken {
@@ -8,6 +8,7 @@ export interface IToken {
     parentId: string
     type: TokenType
     payload?: any
+    expireAt?: Date
 }
 
 const TokenSchema = new Schema<IToken>({
@@ -15,6 +16,7 @@ const TokenSchema = new Schema<IToken>({
     parentId: { type: String, required: true },
     type: { type: String, enum: TokenTypeArray },
     payload: { type: Object },
+    expireAt: { type: Date },
 }, { versionKey: false, timestamps: { createdAt: true, updatedAt: false } })
 
 export const Token = model<IToken>('Token', TokenSchema)

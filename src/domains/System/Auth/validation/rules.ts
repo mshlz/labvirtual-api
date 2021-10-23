@@ -17,6 +17,7 @@ class Rules {
 
     onConfirmAccount = {
         user_id: Yup.string().trim().required().uuid().exists(User),
+        token_id: Yup.string().trim().required(),
         token: Yup.string().trim().required()
     }
 
@@ -25,6 +26,7 @@ class Rules {
     }
 
     onResetPassword = {
+        token_id: Yup.string().required(),
         token: Yup.string().required(),
         password: this.onRegister.password,
         password_confirm: Yup.string().required().oneOf([Yup.ref('password'), null], 'As senhas devem ser iguais'),

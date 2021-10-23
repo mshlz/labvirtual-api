@@ -16,7 +16,7 @@ export class AuthController {
 
     @Post('register')
     @Validate(rules.onRegister)
-    public async register(@Body() data: fromRule<typeof rules.onRegister>): Promise<ApiResponse> {
+    public async register(@Body() data: any): Promise<ApiResponse> {
         const userType = data.type === 'teacher' ? 'TEACHER' : 'STUDENT'
         delete data.type
 
@@ -26,7 +26,7 @@ export class AuthController {
     @Post('confirm-account')
     @Validate(rules.onConfirmAccount)
     public async confirmAccount(@Body() data: fromRule<typeof rules.onConfirmAccount>): Promise<ApiResponse> {
-        return success(await authService.confirmAccount(data.user_id, data.token))
+        return success(await authService.confirmAccount(data.user_id, data.token_id, data.token))
     }
 
     @Post('forgot-password')
@@ -34,16 +34,13 @@ export class AuthController {
     public async forgotPassword(@Body() data: fromRule<typeof rules.onForgotPassword>): Promise<ApiResponse> {
         const resetToken = await authService.generateResetToken(data.email)
 
-        // TODO: send mail
-        console.log('RESET TOKEN: ', resetToken.token)
-
-        return success(true)
+        return success({ tokenId: resetToken._id })
     }
 
     @Post('reset-password')
     @Validate(rules.onResetPassword)
     public async resetPassword(@Body() data: fromRule<typeof rules.onResetPassword>): Promise<ApiResponse> {
-        return success(await authService.resetPassword(data.token, data.password))
+        return success(await authService.resetPassword(data.token_id, data.token, data.password))
     }
 
 }

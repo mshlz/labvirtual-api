@@ -1,5 +1,6 @@
 import { createHash } from 'crypto'
 import { v4 } from 'uuid'
+import { BadRequestError } from '../../../utils/http/responses'
 import { getNanoIdAsync } from '../../../utils/nanoid'
 import { IToken, Token, TokenType } from './Token'
 
@@ -8,6 +9,16 @@ export class TokenService {
         const token = await Token.create(data)
         await token.save()
         return token
+    }
+
+    public async createToken(type: TokenType, token: string, parentId: string, payload?: any, expireAt?: Date) {
+        return this.createRaw({
+            type,
+            parentId,
+            payload,
+            token,
+            expireAt,
+        })
     }
 
     public async createNumberToken(type: TokenType, parentId: string, payload?: any, size?: number) {
@@ -37,15 +48,36 @@ export class TokenService {
         })
     }
 
-    public async use(token: string, type: TokenType, parentId?: string) {
-        const result = await Token.findOne({ token, type, parentId })
+    public async use(tokenId: string, token: string, type: TokenType, parentId?: string) {
+        const result = await Token.findOne({ _id: tokenId, token, type, parentId })
 
         if (!result) {
             return null
         }
 
-        await Token.deleteOne({ token, type, parentId })
+        if (result.expireAt && new Date(result.expireAt).getTime() < Date.now()) {
+            await result.delete()
+            throw new BadRequestError("Token expired")
+        }
+
+        await Token.deleteOne({ _id: tokenId })
         return result
+    }
+
+    public async findOne(type: TokenType, parentId: string, includeExpired?: boolean) {
+        const filter = {
+            type, 
+            parentId, 
+            expireAt: {
+                $gt: new Date()
+            }
+        }
+
+        if (includeExpired) {
+            delete filter.expireAt
+        }
+
+        return Token.findOne(filter)
     }
 
     public async delete(id: string) {
