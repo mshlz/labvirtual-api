@@ -7,7 +7,8 @@ export class BaseSchema<T = any> extends Schema {
         if (!definition['_id']) {
             definition['_id'] = {
                 type: String,
-                default: v4
+                default: v4,
+                immutable: true
             }
         }
 
