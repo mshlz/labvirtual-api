@@ -5,7 +5,7 @@ import { PaginationResult } from '../../utils/database/mongoose-paginator'
 export class BaseResourceService<ModelInterface = any, T extends Model<ModelInterface & Document> & { paginate?: (...args: any) => Promise<PaginationResult<T>> } = any> {
     constructor(protected model: T) { }
 
-    public async create(data): Promise<any> {
+    public async create(data) {
         const result = await new this.model(data).save()
 
         return result.toJSON()

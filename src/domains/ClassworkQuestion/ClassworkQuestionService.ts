@@ -8,7 +8,10 @@ export class ClassworkQuestionService extends BaseResourceService {
     public async clone(questionId: string, classworkId: string, value: number) {
         const original = await questionService.get(questionId)
 
-        const question = new ClassworkQuestion({
+        const question = ClassworkQuestion.findOneAndUpdate({
+            parent: original._id,
+            classwork: classworkId
+        }, {
             parent: original._id,
             name: original.name,
             text: original.text,
@@ -16,9 +19,25 @@ export class ClassworkQuestionService extends BaseResourceService {
             alternatives: original.alternatives,
             classwork: classworkId,
             value
+        }, {
+            upsert: true,
+            lean: true,
+            new: true
         })
 
-        return question.save()
+        return question
+    }
+
+    public async getQuestionsFromClassworkId(classworkId: string) {
+        return ClassworkQuestion.find({ classwork: classworkId }).lean(true)
+    }
+
+    public async syncClassworkQuestions(classworkId: string, questionIds: string[]) {
+        if (!questionIds) return
+
+        const currentQuestions = await ClassworkQuestion.find({ classwork: classworkId }).select('_id')
+        const shouldRemove = currentQuestions.filter(v => !questionIds.includes(v._id)).map(v => Promise.resolve(v.remove()))
+        await Promise.all(shouldRemove)
     }
 
 }

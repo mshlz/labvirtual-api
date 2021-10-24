@@ -13,7 +13,7 @@ interface IAlternative {
 const AlternativeSchema = new Schema<IAlternative>({
     code: String,
     text: String,
-    correct: Boolean
+    correct: { type: Boolean, select: false }
 }, { versionKey: false, timestamps: false, _id: false })
 
 export interface IClassworkQuestion {
