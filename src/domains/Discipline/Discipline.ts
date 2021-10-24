@@ -4,10 +4,12 @@ import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
 export interface IDiscipline {
     name: string
+    icon?: string
 }
 
 const DisciplineSchema = new BaseSchema<IDiscipline>({
     name: String,
+    icon: String,
 }, { versionKey: false, timestamps: true })
 
 DisciplineSchema.virtual('subjects', {

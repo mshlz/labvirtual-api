@@ -3,9 +3,12 @@ import { BaseResourceService } from '../Base/BaseService'
 
 export class DisciplineService extends BaseResourceService {
     constructor() { super(Discipline) }
-    
+
     async getAllWithSubjects() {
-        return Discipline.find({}).select('id name').populate('subjects', 'id name -discipline').lean(true)
+        return Discipline.find({})
+            .select('id name icon')
+            .populate('subjects', 'id name icon -discipline')
+            .lean(true)
     }
 }
 
