@@ -4,7 +4,7 @@ import { BaseResourceService } from '../Base/BaseService'
 import { IQuestion, Question } from './Question'
 
 
-export class QuestionService extends BaseResourceService {
+export class QuestionService extends BaseResourceService<IQuestion> {
     constructor() { super(Question) }
 
     public async list(page?: number, per_page?: number) {
