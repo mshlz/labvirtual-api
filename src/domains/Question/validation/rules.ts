@@ -20,7 +20,8 @@ class Rules {
     }
 
     simpleSearch = {
-        query: Yup.string().trim().min(1).required()
+        query: Yup.string().trim().min(1).required(),
+        skipIds: Yup.array().of(Yup.string().trim().uuid())
     }
 }
 

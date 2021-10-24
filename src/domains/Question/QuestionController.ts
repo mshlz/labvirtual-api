@@ -17,7 +17,7 @@ export class QuestionController {
     @Post('simple-search')
     @Validate(rules.simpleSearch)
     public async simpleSearch(@Body() data): Promise<ApiResponse> {
-        return success(await questionService.simpleSearch(data.query))
+        return success(await questionService.simpleSearch(data.query, data.skipIds || []))
     }
 
     @Get(':id')

@@ -11,10 +11,13 @@ export class QuestionService extends BaseResourceService<IQuestion> {
         return super.list(page, per_page, { populate: [{ path: 'disciplines', select: 'name id' }, { path: 'subjects', select: 'name id' }] })
     }
 
-    public async simpleSearch(query: string) {
+    public async simpleSearch(query: string, skipIds: string[]) {
         const $regex = new RegExp(escapeStringRegexp(query), 'i')
-
+        
         return this.model.find({
+            _id: {
+                $nin: skipIds
+            },
             $or: [
                 { name: { $regex } },
                 { text: { $regex } },
