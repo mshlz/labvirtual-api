@@ -6,11 +6,13 @@ import mongoosePaginator from '../../utils/database/mongoose-paginator'
 export interface ISubject {
     name: string
     discipline: IDiscipline | string
+    icon: string
 }
 
 const SubjectSchema = new BaseSchema<ISubject>({
     name: { type: String, required: true },
     discipline: { type: String, ref: 'Discipline', required: true },
+    icon: { type: String },
 }, { versionKey: false, timestamps: true })
 
 SubjectSchema.plugin(mongoosePaginator)
