@@ -5,7 +5,7 @@ import { ENV, JWT_SECRET } from '../config/env'
 
 @Middleware({ type: 'before' })
 export class AuthMiddleware implements ExpressMiddlewareInterface {
-    private skipRoutes = ['/health', '/auth/login', '/auth/register', '/auth/confirm-account', '/auth/forgot-password', '/auth/reset-password', '/disciplines/with-subjects']
+    private skipRoutes = ['/health', '/auth/login', '/auth/register', '/auth/confirm-account', '/auth/forgot-password', '/auth/check-token', '/auth/reset-password', '/disciplines/with-subjects']
 
     use(request: Request, response: any, next: (err?: any) => any) {
         if (this.skipRoutes.includes(request.url)) return next()

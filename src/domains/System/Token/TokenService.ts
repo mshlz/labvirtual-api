@@ -64,10 +64,19 @@ export class TokenService {
         return result
     }
 
+    public async check(id: string, code: string) {
+        const token = await Token.findById(id)
+
+        if (!token || token.token != code)
+            return false
+
+        return true
+    }
+
     public async findOne(type: TokenType, parentId: string, includeExpired?: boolean) {
         const filter = {
-            type, 
-            parentId, 
+            type,
+            parentId,
             expireAt: {
                 $gt: new Date()
             }

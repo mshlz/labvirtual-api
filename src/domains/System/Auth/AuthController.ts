@@ -3,6 +3,7 @@ import { ApiResponse } from '../../../interfaces/ApiResponse'
 import { fromRule } from '../../../utils/helpers'
 import { success } from '../../../utils/http/responses'
 import { Validate } from '../../../utils/validator/Validator'
+import { tokenService } from '../Token/TokenService'
 import { authService } from './AuthService'
 import rules from './validation/rules'
 
@@ -34,7 +35,15 @@ export class AuthController {
     public async forgotPassword(@Body() data: fromRule<typeof rules.onForgotPassword>): Promise<ApiResponse> {
         const resetToken = await authService.generateResetToken(data.email)
 
-        return success({ tokenId: resetToken._id })
+        return success({ tokenId: resetToken.id })
+    }
+
+    @Post('check-token')
+    @Validate(rules.onCheckToken)
+    public async checkResetToken(@Body() data): Promise<ApiResponse> {
+        const result = await tokenService.check(data.tokenId, data.code)
+
+        return success(result)
     }
 
     @Post('reset-password')

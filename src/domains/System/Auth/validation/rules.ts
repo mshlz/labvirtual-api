@@ -26,6 +26,11 @@ class Rules {
         email: Yup.string().required().email(),
     }
 
+    onCheckToken = {
+        tokenId: Yup.string().required(),
+        code: Yup.string().required()
+    }
+
     onResetPassword = {
         token_id: Yup.string().required(),
         token: Yup.string().required(),
