@@ -9,9 +9,10 @@ class Rules {
     }
 
     onRegister = {
-        name: Yup.string().required(),
+        name: Yup.string().required().min(3),
         email: Yup.string().required().email().unique(User, 'email', true, 'Este email já esta em uso'),
         password: Yup.string().required().min(5).max(50),
+        password_confirm: Yup.string().required().oneOf([Yup.ref('password'), null], 'As senhas devem ser iguais'),
         type: Yup.string().required().oneOf(['teacher', 'student'])
     }
 
