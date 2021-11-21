@@ -49,7 +49,7 @@ export class AuthController {
     @Post('reset-password')
     @Validate(rules.onResetPassword)
     public async resetPassword(@Body() data: fromRule<typeof rules.onResetPassword>): Promise<ApiResponse> {
-        return success(await authService.resetPassword(data.token_id, data.token, data.password))
+        return success(await authService.resetPassword(data.tokenId, data.code, data.password))
     }
 
 }

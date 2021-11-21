@@ -49,7 +49,16 @@ export class TokenService {
     }
 
     public async use(tokenId: string, token: string, type: TokenType, parentId?: string) {
-        const result = await Token.findOne({ _id: tokenId, token, type, parentId })
+        const params = {
+            _id: tokenId, 
+            token, 
+            type, 
+            parentId
+        }
+        
+        if (!parentId) delete params.parentId
+
+        const result = await Token.findOne(params)
 
         if (!result) {
             return null

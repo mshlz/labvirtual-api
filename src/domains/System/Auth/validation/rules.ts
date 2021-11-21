@@ -32,8 +32,8 @@ class Rules {
     }
 
     onResetPassword = {
-        token_id: Yup.string().required(),
-        token: Yup.string().required(),
+        tokenId: Yup.string().required(),
+        code: Yup.string().required(),
         password: this.onRegister.password,
         password_confirm: Yup.string().required().oneOf([Yup.ref('password'), null], 'As senhas devem ser iguais'),
     }
