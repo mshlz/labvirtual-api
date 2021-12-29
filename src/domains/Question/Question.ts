@@ -14,7 +14,7 @@ interface IAlternative {
 const AlternativeSchema = new Schema<IAlternative>({
     code: {
         type: String,
-        default: getNanoId(5)
+        default: () => getNanoId(5)
     },
     text: { type: String, required: true },
     correct: Boolean
