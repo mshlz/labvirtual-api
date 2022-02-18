@@ -15,6 +15,11 @@ export class ClassworkController {
         return result
     }
 
+    @Post('from/class')
+    public async getFromClass(@Body() data): Promise<ApiResponse> {
+        return success(await classworkService.getFromClass(data.classId))
+    }
+
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
         return success(await classworkService.get(id))

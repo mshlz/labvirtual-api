@@ -8,7 +8,7 @@ export function UserFromSession(options?: { required?: boolean }) {
         value: async (action) => {
             const token = action.request.headers['authorization'].replace('Bearer ', '')
             const { user } = jwt.decode(token) as any
-            return await User.findById(user)
+            return await User.findById(user).lean(true)
         },
     })
 }

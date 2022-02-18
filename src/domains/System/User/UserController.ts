@@ -10,7 +10,7 @@ import rules from './validation/rules'
 @JsonController('/users/')
 export class UserController {
     @Get('profile')
-    public async profile(@UserFromSession() user: IUser): Promise<ApiResponse> {
+    public async profile(@UserFromSession() user): Promise<ApiResponse> {
         return success(user)
     }
 

@@ -1,5 +1,6 @@
 import { Yup } from '../../../utils/validator/Validator'
 import { Class } from '../../Class/Class'
+import { ClassTopic } from '../../ClassTopic/ClassTopic'
 import { ClassworkQuestion } from '../../ClassworkQuestion/ClassworkQuestion'
 import { Question } from '../../Question/Question'
 
@@ -19,6 +20,7 @@ class Rules {
         value: Yup.number().min(1).max(100),
         dueDate: Yup.date().nullable(),
         classId: Yup.string().trim().required().uuid().exists(Class),
+        topicId: Yup.string().trim().uuid().exists(ClassTopic),
         newQuestions: Yup.array().of(NewQuestionsSchema)
     }
 

@@ -8,6 +8,7 @@ interface Q {
 }
 interface AdditionalData {
     classId?: string
+    topicId?: string
     newQuestions?: Q[]
     questions?: Q[]
 }
@@ -17,7 +18,8 @@ export class ClassworkService extends BaseResourceService<IClasswork> {
     public async create(data: Partial<IClasswork & AdditionalData>) {
         const classwork = await super.create({
             ...data,
-            class: data.classId
+            class: data.classId,
+            topic: data.topicId,
         })
 
         classwork.questions = await this.cloneNewQuestions(data.newQuestions, classwork._id)
@@ -28,7 +30,12 @@ export class ClassworkService extends BaseResourceService<IClasswork> {
     public async update(id: string, data: IClasswork & AdditionalData) {
         await classworkQuestionService.syncClassworkQuestions(id, (data.questions || []).map(v => v.questionId))
         await this.cloneNewQuestions(data.newQuestions, id)
-        return await super.update(id, data)
+        return await super.update(id, {...data, topic: data.topicId})
+    }
+
+    public async getFromClass(classId: string) {
+        return Classwork.find({ class: classId })
+            .lean(true)
     }
 
     public async get(id: string) {
