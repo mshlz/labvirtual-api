@@ -8,7 +8,8 @@
     "start:ts": "ts-node src/server.ts",
     "lint": "eslint src/",
     "dev": "tsnd --transpile-only --ignore-watch node_modules src/server.ts",
-    "dev:dbg": "tsnd --inspect=6666 --respawn --transpile-only --ignore-watch node_modules src/server.ts"
+    "dev:dbg": "tsnd --inspect=6666 --respawn --transpile-only --ignore-watch node_modules src/server.ts",
+    "dev:nodemon": "nodemon src/server.ts"
   },
   "author": "Mateus Holzschuh",
   "license": "MIT",

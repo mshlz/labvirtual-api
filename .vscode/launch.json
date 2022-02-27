@@ -2,6 +2,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "lab-api nodemon",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm run dev:nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
             "name": "lab-api tsc",
             "type": "node",
             "request": "launch",
