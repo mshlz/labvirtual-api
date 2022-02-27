@@ -1,6 +1,9 @@
 import { Classwork, IClasswork } from './Classwork'
 import { BaseResourceService } from '../Base/BaseService'
 import { classworkQuestionService } from '../ClassworkQuestion/ClassworkQuestionService'
+import { classService } from '../Class/ClassService'
+import { classworkSubmissionService } from '../ClassworkSubmission/ClassworkSubmissionService'
+import { BadRequestError } from '../../utils/http/responses'
 
 interface Q {
     questionId: string
@@ -30,7 +33,27 @@ export class ClassworkService extends BaseResourceService<IClasswork> {
     public async update(id: string, data: IClasswork & AdditionalData) {
         await classworkQuestionService.syncClassworkQuestions(id, (data.questions || []).map(v => v.questionId))
         await this.cloneNewQuestions(data.newQuestions, id)
-        return await super.update(id, {...data, topic: data.topicId})
+        return await super.update(id, { ...data, topic: data.topicId })
+    }
+
+    public async publishActivity(id: string) {
+        const classwork = await Classwork.findById(id)
+        
+        if (!classwork) {
+            throw new BadRequestError('Classwork not found')
+        }
+
+        if (classwork.status === 'PUBLISHED') {
+            throw new BadRequestError('Classwork already published')
+        }
+
+        const students = await classService.getStudentsFromClass(classwork.class as string)
+        await classworkSubmissionService.assignClassworkToStudents(classwork, students)
+
+        classwork.status = 'PUBLISHED'
+        await classwork.save()
+
+        return true
     }
 
     public async getFromClass(classId: string) {

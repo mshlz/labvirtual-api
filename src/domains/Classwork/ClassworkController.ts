@@ -36,6 +36,11 @@ export class ClassworkController {
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await classworkService.update(id, data))
     }
+    
+    @Post(':id/publish')
+    public async publish(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
+        return success(await classworkService.publishActivity(id))
+    }
 
     @Delete(':id')
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
