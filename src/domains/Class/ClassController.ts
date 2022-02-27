@@ -20,7 +20,7 @@ export class ClassController {
 
     @Get('my-classes')
     public async myClasses(@UserFromSession() user: IUser): Promise<ApiResponse> {
-        return success(await classService.getClassesFromUser(user._id))
+        return success(await classService.getClassesFromUserId(user._id))
     }
 
     @Get(':id')

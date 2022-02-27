@@ -1,12 +1,12 @@
 import { BaseResourceService } from '../Base/BaseService'
 import { User } from '../System/User/User'
-import { Class } from './Class'
+import { Class, IClass } from './Class'
 
 export class ClassService extends BaseResourceService {
     constructor() { super(Class) }
 
-    public async getPeopleFromClass(id: string) {
-        const result = await Class.findById(id)
+    public async getPeopleFromClass(classId: string) {
+        const result = await Class.findById(classId)
             .select('id teacher students name')
             .populate('teacher', 'id name')
             .populate('students', 'id name')
@@ -15,8 +15,18 @@ export class ClassService extends BaseResourceService {
 
         return result
     }
+    
+    public async getStudentsFromClass(classId: string) {
+        const result = await Class.findById(classId)
+            .select('id students')
+            .populate('students', 'id name')
+            .lean(true)
+            .exec()
 
-    public async getClassesFromUser(userId: string) {
+        return result.students
+    }
+
+    public async getClassesFromUserId(userId: string) {
         const user = await User.findById(userId)
             .populate({
                 path: 'classes',
@@ -29,7 +39,7 @@ export class ClassService extends BaseResourceService {
             .lean()
             .exec()
 
-        return user.classes
+        return user.classes as IClass[]
     }
 }
 
