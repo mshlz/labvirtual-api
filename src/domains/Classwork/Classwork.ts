@@ -1,17 +1,20 @@
 import { model } from 'mongoose'
-import { BaseSchema } from '../Base/BaseSchema'
-import { IClass } from '../Class/Class'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
-import { IClassworkQuestion } from '../ClassworkQuestion/ClassworkQuestion'
+import { BaseSchema, BaseSchemaInterface } from '../Base/BaseSchema'
+import { IClass } from '../Class/Class'
 import { IClassTopic } from '../ClassTopic/ClassTopic'
+import { IClassworkQuestion } from '../ClassworkQuestion/ClassworkQuestion'
 
-export interface IClasswork {
+const ClassworkStatusEnum = ['DRAFT', 'PUBLISHED'] as const
+export type ClassworkStatusType = typeof ClassworkStatusEnum[number]
+
+export interface IClasswork extends BaseSchemaInterface {
     name: string
     description?: string
     value?: number
     weight?: number
     dueDate?: Date
-    isDraft?: boolean
+    status: ClassworkStatusType
     class: IClass | string,
     topic: IClassTopic | string,
     questions?: IClassworkQuestion[] | string[]
@@ -23,7 +26,7 @@ const ClassworkSchema = new BaseSchema<IClasswork>({
     value: Number,
     weight: Number,
     dueDate: Date,
-    isDraft: { type: Boolean, default: true },
+    status: { type: String, default: 'DRAFT', enum: ClassworkStatusEnum },
     class: { type: String, ref: 'Class', required: true, immutable: true },
     topic: { type: String, ref: 'ClassTopic' },
 }, { versionKey: false, timestamps: true })
