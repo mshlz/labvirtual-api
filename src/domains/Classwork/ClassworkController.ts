@@ -1,9 +1,9 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
-import { fromRule } from '../../utils/helpers'
+import { UserFromSession } from '../../utils/decorators/UserFromSession'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
-import { classworkQuestionService } from '../ClassworkQuestion/ClassworkQuestionService'
+import { IUser } from '../System/User/User'
 import { classworkService } from './ClassworkService'
 import rules from './validation/rules'
 
@@ -16,8 +16,8 @@ export class ClassworkController {
     }
 
     @Post('from/class')
-    public async getFromClass(@Body() data): Promise<ApiResponse> {
-        return success(await classworkService.getFromClass(data.classId))
+    public async getFromClass(@Body() data, @UserFromSession() user: IUser): Promise<ApiResponse> {
+        return success(await classworkService.getFromClassId(data.classId, user))
     }
 
     @Get(':id')
@@ -27,8 +27,8 @@ export class ClassworkController {
 
     @Post()
     @Validate(rules.onCreate)
-    public async create(@Body() data: any): Promise<ApiResponse> {
-        return success(await classworkService.create(data))
+    public async create(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
+        return success(await classworkService.create({...data, author: user._id}))
     }
 
     @Post(':id')

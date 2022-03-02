@@ -63,6 +63,7 @@ export class ClassworkService extends BaseResourceService<IClasswork> {
 
     public async get(id: string) {
         return Classwork.findById(id)
+            .populate('author', 'id name')
             .populate('questions', 'id parent value name text type alternatives -classwork')
             .lean(true)
     }
