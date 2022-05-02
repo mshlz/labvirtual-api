@@ -6,9 +6,9 @@ import { IClasswork } from '../Classwork/Classwork'
 import { IClassworkQuestion } from '../ClassworkQuestion/ClassworkQuestion'
 import { IUser } from '../System/User/User'
 
-interface IQuestionAnswer {
+export interface IQuestionAnswer {
     question: IClassworkQuestion | string
-    answer: string
+    answer: string | string[]
     grade: number
     correct: boolean
     comment: string

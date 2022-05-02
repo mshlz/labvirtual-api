@@ -29,7 +29,7 @@ export class ClassworkQuestionService extends BaseResourceService {
     }
 
     public async getQuestionsFromClassworkId(classworkId: string) {
-        return ClassworkQuestion.find({ classwork: classworkId }).lean(true)
+        return ClassworkQuestion.find({ classwork: classworkId })
     }
 
     public async syncClassworkQuestions(classworkId: string, questionIds: string[]) {

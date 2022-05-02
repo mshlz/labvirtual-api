@@ -1,9 +1,10 @@
-import { Classwork, IClasswork } from './Classwork'
-import { BaseResourceService } from '../Base/BaseService'
-import { classworkQuestionService } from '../ClassworkQuestion/ClassworkQuestionService'
-import { classService } from '../Class/ClassService'
-import { classworkSubmissionService } from '../ClassworkSubmission/ClassworkSubmissionService'
 import { BadRequestError } from '../../utils/http/responses'
+import { BaseResourceService } from '../Base/BaseService'
+import { classService } from '../Class/ClassService'
+import { classworkQuestionService } from '../ClassworkQuestion/ClassworkQuestionService'
+import { classworkSubmissionService } from '../ClassworkSubmission/ClassworkSubmissionService'
+import { IUser } from '../System/User/User'
+import { Classwork, IClasswork } from './Classwork'
 
 interface Q {
     questionId: string
@@ -38,7 +39,7 @@ export class ClassworkService extends BaseResourceService<IClasswork> {
 
     public async publishActivity(id: string) {
         const classwork = await Classwork.findById(id)
-        
+
         if (!classwork) {
             throw new BadRequestError('Classwork not found')
         }
@@ -56,7 +57,11 @@ export class ClassworkService extends BaseResourceService<IClasswork> {
         return true
     }
 
-    public async getFromClass(classId: string) {
+    public async getFromClassId(classId: string, user: IUser) {
+        if (user.type === 'STUDENT') {
+            return classworkSubmissionService.getSubmissionsFromStudentIdAndClassId(user._id, classId)
+        }
+
         return Classwork.find({ class: classId })
             .lean(true)
     }
