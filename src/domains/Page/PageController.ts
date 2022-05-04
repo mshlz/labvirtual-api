@@ -32,7 +32,7 @@ export class PageController {
 
     @Post('from/sections')
     @Validate(rules.getFromSections)
-    public async getFromDisciplines(@Body() data: any): Promise<ApiResponse> {
+    public async getFromSections(@Body() data: any): Promise<ApiResponse> {
         return success(await pageService.getFromSections(data.sections))
     }
 
