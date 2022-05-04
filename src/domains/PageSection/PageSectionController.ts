@@ -14,7 +14,7 @@ export class PageSectionController {
     }
 
     @Get('slug/:slug')
-    public async getByCode(@Param('slug') slug: string): Promise<ApiResponse> {
+    public async getBySlug(@Param('slug') slug: string): Promise<ApiResponse> {
         return success(await pageSectionService.getBySlug(slug))
     }
 
