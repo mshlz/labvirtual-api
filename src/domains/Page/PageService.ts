@@ -1,6 +1,7 @@
 import { Page } from './Page'
 import { BaseResourceService } from '../Base/BaseService'
 import { NotFoundError } from 'routing-controllers'
+import { pageSectionService } from '../PageSection/PageSectionService'
 
 export class PageService extends BaseResourceService {
     constructor() { super(Page) }
@@ -20,13 +21,26 @@ export class PageService extends BaseResourceService {
     }
 
     public async getByCode(code: string) {
-        const result = await Page.findOne({ code }).populate('section', 'name id').populate('author', 'name id').lean(true).exec()
+        const result = await Page.findOne({ code }).populate('section', 'icon name').populate('author', 'name id').lean(true).exec()
 
         if (!result) {
             throw new NotFoundError('Objeto não encontrado')
         }
 
         return result
+    }
+
+    public async getRouterInfo() {
+        const pages = await Page.find({})
+            .select('-_id code slug name section')
+            .lean(true)
+            .exec()
+        const sectionIds = [...new Set(pages.map(v => v.section as string))]
+
+        return {
+            sections: await pageSectionService.getNameByIds(sectionIds),
+            pages
+        }
     }
 
     public async getFromSections(sections: string[]) {

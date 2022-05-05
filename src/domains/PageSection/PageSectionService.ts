@@ -29,6 +29,11 @@ export class PageSectionService extends BaseResourceService {
         return result
     }
 
+    public async getNameByIds(ids: string[]) {
+        const result = await PageSection.find({ _id: { $in: ids } }).select('name slug').lean(true).exec()
+        return result
+    }
+
 }
 
 export const pageSectionService = new PageSectionService()

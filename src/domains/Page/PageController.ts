@@ -19,6 +19,11 @@ export class PageController {
         return success(await pageService.getByCode(code))
     }
 
+    @Get('router-info')
+    public async getRouterInfo(): Promise<ApiResponse> {
+        return success(await pageService.getRouterInfo())
+    }
+
     @Get(':id')
     public async getOne(@Param('id') id: string): Promise<ApiResponse> {
         return success(await pageService.get(id))
