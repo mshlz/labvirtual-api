@@ -31,6 +31,15 @@ export class UserService extends BaseResourceService {
 
         return true
     }
+
+    public async listTeachersMinimal() {
+        const list = await User
+            .find({ type: 'TEACHER' })
+            .select('id name')
+            .lean(true)
+
+        return list
+    }
 }
 
 export const userService = new UserService()

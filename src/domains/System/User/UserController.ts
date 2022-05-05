@@ -14,6 +14,11 @@ export class UserController {
         return success(user)
     }
 
+    @Get('teachers/list')
+    public async listTeachers(): Promise<ApiResponse> {
+        return success(await userService.listTeachersMinimal())
+    }
+
     @Post('update')
     @Validate(rules.onUpdate)
     public async update(@Body() data: any, @UserFromSession() user: IUser): Promise<ApiResponse> {
