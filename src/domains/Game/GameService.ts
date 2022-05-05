@@ -30,11 +30,11 @@ export class GameService extends BaseResourceService {
     }
 
     public async getFromDisciplines(disciplines: string[]) {
-        return Game.find({ disciplines }).lean(true)
+        return Game.find({ disciplines: { $in: disciplines as any } }).lean(true)
     }
 
     public async getFromSubjects(subjects: string[]) {
-        return Game.find({ subjects }).lean(true)
+        return Game.find({ subjects: { $in: subjects as any } }).lean(true)
     }
 }
 

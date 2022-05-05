@@ -30,11 +30,11 @@ export class SimulatorService extends BaseResourceService {
     }
 
     public async getFromDisciplines(disciplines: string[]) {
-        return Simulator.find({ disciplines }).lean(true)
+        return Simulator.find({ disciplines: { $in: disciplines as any } }).lean(true)
     }
 
     public async getFromSubjects(subjects: string[]) {
-        return Simulator.find({ subjects }).lean(true)
+        return Simulator.find({ subjects: { $in: subjects as any } }).lean(true)
     }
 }
 
