@@ -9,6 +9,7 @@ import { ISubject } from '../Subject/Subject'
 export interface IGame {
     name: string
     slug: string
+    icon: string
     code: string
     content: string
     disciplines: string[] | IDiscipline[]
@@ -17,6 +18,7 @@ export interface IGame {
 
 const GameSchema = new BaseSchema<IGame>({
     name: { type: String, required: true },
+    icon: { type: String },
     slug: { type: String,/* required: true*/ },
     code: { type: String, default: () => getNanoId(), immutable: true },
     content: { type: String, required: true },

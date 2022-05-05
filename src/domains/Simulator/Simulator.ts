@@ -10,6 +10,7 @@ export interface ISimulator {
     name: string
     slug: string
     code: string
+    icon: string
     content: string
     disciplines: string[] | IDiscipline[]
     subjects: string[] | ISubject[]
@@ -17,6 +18,7 @@ export interface ISimulator {
 
 const SimulatorSchema = new BaseSchema<ISimulator>({
     name: { type: String, required: true },
+    icon: { type: String },
     slug: { type: String,/* required: true*/ },
     code: { type: String, default: () => getNanoId(), immutable: true },
     content: { type: String, required: true },

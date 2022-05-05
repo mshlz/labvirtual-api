@@ -5,12 +5,14 @@ import { BaseSchema } from '../Base/BaseSchema'
 
 export interface IPageSection {
     name: string
+    icon: string
     description: string
     slug: string
 }
 
 const PageSectionSchema = new BaseSchema<IPageSection>({
     name: { type: String, required: true },
+    icon: { type: String },
     description: { type: String },
     slug: { type: String,/* required: true*/ },
 }, { versionKey: false, timestamps: true })
