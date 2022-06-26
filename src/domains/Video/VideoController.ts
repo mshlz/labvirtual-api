@@ -4,8 +4,10 @@ import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { videosService } from './VideoService'
 import rules from './validation/rules'
+import { Authorized } from '../../utils/auth'
 
 @JsonController('/videos/')
+@Authorized()
 export class VideoController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {

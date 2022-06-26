@@ -1,12 +1,14 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { Authorized } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { disciplineService } from './DisciplineService'
 import rules from './validation/rules'
 
 @JsonController('/disciplines/')
-export class UserController {
+@Authorized()
+export class DisciplineController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
         const disciplines = await disciplineService.list(query.page, query.per_page)

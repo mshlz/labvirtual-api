@@ -1,5 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { Authorized } from '../../utils/auth'
 import { UserFromSession } from '../../utils/decorators/UserFromSession'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
@@ -8,6 +9,7 @@ import { classworkService } from './ClassworkService'
 import rules from './validation/rules'
 
 @JsonController('/classworks/')
+@Authorized()
 export class ClassworkController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {

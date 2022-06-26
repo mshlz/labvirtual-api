@@ -1,11 +1,13 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { Authorized } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { gameService } from './GameService'
 import rules from './validation/rules'
 
 @JsonController('/games/')
+@Authorized()
 export class GameController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {

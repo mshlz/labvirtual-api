@@ -1,5 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post } from 'routing-controllers'
 import { ApiResponse } from '../../../interfaces/ApiResponse'
+import { Authorized } from '../../../utils/auth'
 import { UserFromSession } from '../../../utils/decorators/UserFromSession'
 import { BadRequestError, success } from '../../../utils/http/responses'
 import { Validate } from '../../../utils/validator/Validator'
@@ -8,6 +9,7 @@ import { userService } from './UserService'
 import rules from './validation/rules'
 
 @JsonController('/users/')
+@Authorized()
 export class UserController {
     @Get('profile')
     public async profile(@UserFromSession() user): Promise<ApiResponse> {

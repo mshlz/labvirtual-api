@@ -1,5 +1,5 @@
-import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
-import { ApiResponse } from '../../interfaces/ApiResponse'
+import { Body, JsonController, Post } from 'routing-controllers'
+import { Authorized } from '../../utils/auth'
 import { UserFromSession } from '../../utils/decorators/UserFromSession'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
@@ -9,6 +9,7 @@ import { classworkSubmissionService } from './ClassworkSubmissionService'
 import rules from './validation/rules'
 
 @JsonController('/classwork-actions/') // bad name
+@Authorized()
 export class ClassworkSubmissionController {
     @Post('submit')
     @Validate(rules.onSubmitClasswork)

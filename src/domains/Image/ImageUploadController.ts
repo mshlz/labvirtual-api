@@ -1,7 +1,9 @@
 import { JsonController, Post, UploadedFile } from 'routing-controllers'
+import { Authorized } from '../../utils/auth'
 import { ImageUploadService } from './ImageUploadService'
 
 @JsonController('/')
+@Authorized()
 export class ImageUploadController {
     @Post('upload')
     public async uploadImage(@UploadedFile('file-0') data) {

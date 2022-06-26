@@ -1,5 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
+import { Authorized } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { pageSectionService } from './PageSectionService'
@@ -25,17 +26,20 @@ export class PageSectionController {
 
     @Post()
     @Validate(rules.onCreate)
+    @Authorized()
     public async create(@Body() data: any): Promise<ApiResponse> {
         return success(await pageSectionService.create(data))
     }
 
     @Post(':id')
+    @Authorized()
     @Validate(rules.onUpdate)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await pageSectionService.update(id, data))
     }
 
     @Delete(':id')
+    @Authorized()
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await pageSectionService.delete(id))
     }
