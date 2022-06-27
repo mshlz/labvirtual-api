@@ -7,7 +7,6 @@ import { disciplineService } from './DisciplineService'
 import rules from './validation/rules'
 
 @JsonController('/disciplines/')
-@Authorized()
 export class DisciplineController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
@@ -28,17 +27,20 @@ export class DisciplineController {
 
     @Post()
     @Validate(rules.onCreate)
+    @Authorized()
     public async create(@Body() data: any): Promise<ApiResponse> {
         return success(await disciplineService.create(data))
     }
 
     @Post(':id')
     @Validate(rules.onUpdate)
+    @Authorized()
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await disciplineService.update(id, data))
     }
 
     @Delete(':id')
+    @Authorized()
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await disciplineService.delete(id))
     }

@@ -47,7 +47,7 @@ export class ClassController {
         const klass = await Class.findOne({ code: data.code }).select('_id name').exec()
 
         if (!klass) {
-            throw new NotFoundError('Class not found')
+            throw new NotFoundError('Turma não encontrada')
         }
 
         await classEnrollmentService.enrollUser(user._id, klass._id)
