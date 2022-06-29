@@ -45,10 +45,10 @@ export class ClassworkSubmissionService extends BaseResourceService {
         const finalAnswers: IQuestionAnswer[] = []
 
         for (const question of activityQuestions) {
-            const answer = answers.find(v => v.question == question.id) as IQuestionAnswer
+            const answer = answers.find(v => v.question == question._id) as IQuestionAnswer
 
             if (!answer) {
-                throw new BadRequestError(`Missing answer for question "${question.id}"`)
+                throw new BadRequestError(`Missing answer for question "${question._id}"`)
             }
 
             if (question.type === 'DISSERTATIVE') {
@@ -56,7 +56,7 @@ export class ClassworkSubmissionService extends BaseResourceService {
             }
             else if (question.type === 'SINGLE_CHOICE') {
                 const correctAlternative = question.alternatives.find(v => v.correct)
-                
+
                 answer.correct = answer.answer === correctAlternative.code
                 answer.grade = answer.correct ? question.value : 0
             }
