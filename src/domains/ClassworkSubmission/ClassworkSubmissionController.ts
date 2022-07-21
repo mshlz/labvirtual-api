@@ -8,9 +8,15 @@ import { IQuestionAnswer } from './ClassworkSubmission'
 import { classworkSubmissionService } from './ClassworkSubmissionService'
 import rules from './validation/rules'
 
-@JsonController('/classwork-actions/') // bad name
+@JsonController('/classwork-assignment/')
 @Authorized()
 export class ClassworkSubmissionController {
+    @Post('get-basic')
+    @Validate(rules.onGetAssignment)
+    async getBasic(@Body() body: any, @UserFromSession() user: IUser) {
+        return success(await classworkSubmissionService.getAssignment(body.assignmentId))
+    }
+
     @Post('submit')
     @Validate(rules.onSubmitClasswork)
     async submit(@Body() body: any, @UserFromSession() user: IUser) {

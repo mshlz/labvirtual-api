@@ -21,8 +21,21 @@ export class ClassworkSubmissionService extends BaseResourceService {
     public async getSubmissionsFromStudentIdAndClassId(userId: string, classId: string) {
         return ClassworkSubmission.find({ student: userId, class: classId })
             .select('-answers -student')
-            .populate('classwork')
+            .populate({ path: 'classwork', populate: { path: 'author', select: 'name' } })
             .lean(true)
+    }
+
+    public async getAssignment(assignmentId: string) {
+        const workSubmission = await ClassworkSubmission.findOne({ _id: assignmentId })
+            .populate({ path: 'classwork', populate: { path: 'author', select: 'name' } })
+            .lean(true)
+
+        if (!workSubmission) {
+            throw new BadRequestError('No classwork assigned')
+        }
+
+        return workSubmission
+
     }
 
     public async submitClasswork(classworkId: string, answers: Partial<IQuestionAnswer>[], userId: string) {
