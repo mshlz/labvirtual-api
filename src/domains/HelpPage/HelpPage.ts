@@ -4,7 +4,7 @@ import mongoosePaginator from '../../utils/database/mongoose-paginator'
 import { getNanoId } from '../../utils/nanoid'
 import { BaseSchema } from '../Base/BaseSchema'
 import { IPageSection } from '../PageSection/PageSection'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 
 export interface IHelpPage {
     name: string

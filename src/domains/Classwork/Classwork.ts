@@ -4,7 +4,7 @@ import { BaseSchema, BaseSchemaInterface } from '../Base/BaseSchema'
 import { IClass } from '../Class/Class'
 import { IClassTopic } from '../ClassTopic/ClassTopic'
 import { IClassworkQuestion } from '../ClassworkQuestion/ClassworkQuestion'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 
 const ClassworkStatusEnum = ['DRAFT', 'PUBLISHED'] as const
 export type ClassworkStatusType = typeof ClassworkStatusEnum[number]

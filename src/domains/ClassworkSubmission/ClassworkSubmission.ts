@@ -4,7 +4,7 @@ import { BaseSchema, BaseSchemaInterface } from '../Base/BaseSchema'
 import { IClass } from '../Class/Class'
 import { IClasswork } from '../Classwork/Classwork'
 import { IClassworkQuestion } from '../ClassworkQuestion/ClassworkQuestion'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 
 export interface IQuestionAnswer {
     question: IClassworkQuestion | string

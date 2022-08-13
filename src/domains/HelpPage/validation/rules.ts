@@ -1,6 +1,6 @@
 import { Yup } from '../../../utils/validator/Validator'
 import { HelpSection } from '../../HelpSection/HelpSection'
-import { User } from '../../System/User/User'
+import { User } from '../../User/User'
 
 class Rules {
     onCreate = {

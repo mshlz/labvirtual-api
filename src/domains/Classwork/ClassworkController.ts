@@ -4,7 +4,7 @@ import { Authorized } from '../../utils/auth'
 import { UserFromSession } from '../../utils/decorators/UserFromSession'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 import { classworkService } from './ClassworkService'
 import rules from './validation/rules'
 

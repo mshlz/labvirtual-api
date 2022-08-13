@@ -1,7 +1,7 @@
 import { createHash } from 'crypto'
 import { v4 } from 'uuid'
-import { BadRequestError } from '../../../utils/http/responses'
-import { getNanoIdAsync } from '../../../utils/nanoid'
+import { BadRequestError } from '../../utils/http/responses'
+import { getNanoIdAsync } from '../../utils/nanoid'
 import { IToken, Token, TokenType } from './Token'
 
 export class TokenService {

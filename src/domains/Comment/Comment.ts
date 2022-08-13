@@ -2,7 +2,7 @@ import { model } from 'mongoose'
 import { BaseSchema } from '../Base/BaseSchema'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
 import { IPost } from '../Post/Post'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 
 export interface IComment {
     author: string | IUser

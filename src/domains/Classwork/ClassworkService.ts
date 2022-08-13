@@ -3,7 +3,7 @@ import { BaseResourceService } from '../Base/BaseService'
 import { classService } from '../Class/ClassService'
 import { classworkQuestionService } from '../ClassworkQuestion/ClassworkQuestionService'
 import { classworkSubmissionService } from '../ClassworkSubmission/ClassworkSubmissionService'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 import { Classwork, IClasswork } from './Classwork'
 
 interface Q {

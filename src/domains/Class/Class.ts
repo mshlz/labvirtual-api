@@ -2,7 +2,7 @@ import { model } from 'mongoose'
 import { BaseSchema } from '../Base/BaseSchema'
 import { IDiscipline } from '../Discipline/Discipline'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 import { getNanoId } from '../../utils/nanoid'
 
 export interface IClass {

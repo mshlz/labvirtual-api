@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import { model } from 'mongoose'
-import { BaseSchema } from '../../Base/BaseSchema'
-import mongoosePaginator from '../../../utils/database/mongoose-paginator'
-import { IClass } from '../../Class/Class'
+import { BaseSchema } from '../Base/BaseSchema'
+import mongoosePaginator from '../../utils/database/mongoose-paginator'
+import { IClass } from '../Class/Class'
 
 export type UserType = 'TEACHER' | 'STUDENT' | 'ADMIN'
 export interface IUser {

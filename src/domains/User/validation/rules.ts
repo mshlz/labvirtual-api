@@ -1,4 +1,4 @@
-import { Yup } from '../../../../utils/validator/Validator'
+import { Yup } from '../../../utils/validator/Validator'
 
 class Rules {
     onUpdate = {

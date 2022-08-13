@@ -1,5 +1,5 @@
 import { BaseResourceService } from '../Base/BaseService'
-import { User } from '../System/User/User'
+import { User } from '../User/User'
 import { Class, IClass } from './Class'
 
 export class ClassService extends BaseResourceService {

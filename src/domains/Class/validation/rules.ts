@@ -1,5 +1,5 @@
 import { Yup } from '../../../utils/validator/Validator'
-import { User } from '../../System/User/User'
+import { User } from '../../User/User'
 import { Class } from '../Class'
 
 class Rules {

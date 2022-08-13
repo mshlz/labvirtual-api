@@ -1,7 +1,7 @@
 import { JsonController, Post, UploadedFile } from "routing-controllers";
 import { Authorized } from "../../utils/auth";
 import { UserFromSession } from "../../utils/decorators/UserFromSession";
-import { IUser } from "../System/User/User";
+import { IUser } from "../User/User";
 import { ImageUploadService } from "./ImageUploadService";
 
 @JsonController("/")

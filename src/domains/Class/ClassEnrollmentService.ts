@@ -1,6 +1,6 @@
 import { BadRequestError } from 'routing-controllers'
 import { Class } from './Class'
-import { User } from '../System/User/User'
+import { User } from '../User/User'
 
 export class ClassEnrollmentService {
 

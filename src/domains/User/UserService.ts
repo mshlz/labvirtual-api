@@ -1,4 +1,4 @@
-import { BaseResourceService } from '../../Base/BaseService'
+import { BaseResourceService } from '../Base/BaseService'
 import { IUser, User, UserType } from './User'
 
 export class UserService extends BaseResourceService {

@@ -1,7 +1,7 @@
 import { ClassworkSubmission, IQuestionAnswer } from './ClassworkSubmission'
 import { BaseResourceService } from '../Base/BaseService'
 import { IClasswork } from '../Classwork/Classwork'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 import { BadRequestError } from '../../utils/http/responses'
 import { classworkQuestionService } from '../ClassworkQuestion/ClassworkQuestionService'
 

@@ -3,7 +3,7 @@ import mongoosePaginator from '../../utils/database/mongoose-paginator'
 import { BaseSchema } from '../Base/BaseSchema'
 import { IClass } from '../Class/Class'
 import { IComment } from '../Comment/Comment'
-import { IUser } from '../System/User/User'
+import { IUser } from '../User/User'
 
 export interface IPost {
     author: IUser
