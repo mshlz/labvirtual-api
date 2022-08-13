@@ -7,7 +7,7 @@ export const getNanoId = (size?: number) => customAlphabet(ALPHABET, size || 7)(
 export const getNanoIdAsync = async (size?: number, options?: { onlyNumbers?: boolean }) => {
     let alphabet = ALPHABET
 
-    if (options.onlyNumbers) {
+    if (options?.onlyNumbers) {
         alphabet = '0123456789'
     }
 

@@ -1,16 +1,17 @@
-import { Get, JsonController } from 'routing-controllers'
-import { ApiResponse } from '../../interfaces/ApiResponse'
+import { Get, JsonController } from "routing-controllers";
+import { ApiResponse } from "../../interfaces/ApiResponse";
+import { getNanoIdAsync } from "../../utils/nanoid";
 
-@JsonController('/')
+@JsonController("/")
 export class DefaultController {
-    @Get('health')
-    public async health(): Promise<ApiResponse> {
-        return {
-            message: 'OK',
-            data: {
-                version: '1'
-            }
-        }
-    }
-
+  @Get("health")
+  public async health(): Promise<ApiResponse> {
+    return {
+      message: "OK",
+      data: {
+        rd: await getNanoIdAsync(),
+        version: "1",
+      },
+    };
+  }
 }
