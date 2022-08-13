@@ -1,34 +1,48 @@
-import { JsonController, Post, UploadedFile } from 'routing-controllers'
-import { Authorized } from '../../utils/auth'
-import { ImageUploadService } from './ImageUploadService'
+import { JsonController, Post, UploadedFile } from "routing-controllers";
+import { Authorized } from "../../utils/auth";
+import { UserFromSession } from "../../utils/decorators/UserFromSession";
+import { IUser } from "../System/User/User";
+import { ImageUploadService } from "./ImageUploadService";
 
-@JsonController('/')
+@JsonController("/")
 @Authorized()
 export class ImageUploadController {
-    @Post('upload')
-    public async uploadImage(@UploadedFile('file-0') data) {
+  @Post("upload")
+  public async uploadImage(
+    @UploadedFile("file-0") data,
+    @UserFromSession() user: IUser
+  ) {
+    const result = await ImageUploadService.uploadImage(
+      { filename: data.originalname, size: data.size, buffer: data.buffer },
+      { user: { _id: user._id, name: user.name } }
+    );
 
-        const result = await ImageUploadService.uploadImage({ filename: data.originalname, size: data.size, buffer: data.buffer })
+    return {
+      result: [
+        {
+          url: result.url,
+          name: data.originalname,
+          size: data.size,
+        },
+      ],
+    };
+  }
 
-        return {
-            result: [{
-                url: result.url,
-                name: data.originalname,
-                size: data.size
-            }]
-        }
-    }
+  @Post("upload/2")
+  public async uploadImage2(
+    @UploadedFile("file") data,
+    @UserFromSession() user: IUser
+  ) {
+    const result = await ImageUploadService.uploadImage(
+      { filename: data.originalname, size: data.size, buffer: data.buffer },
+      { user: { _id: user._id, name: user.name } }
+    );
 
-    @Post('upload/2')
-    public async uploadImage2(@UploadedFile('file') data) {
-        const result = await ImageUploadService.uploadImage({ filename: data.originalname, size: data.size, buffer: data.buffer })
-
-        return {
-            name: data.originalname,
-            status: 'done',
-            url: result.url,
-            thumbUrl: result.url
-        }
-    }
-
+    return {
+      name: data.originalname,
+      status: "done",
+      url: result.url,
+      thumbUrl: result.url,
+    };
+  }
 }
