@@ -41,10 +41,9 @@ PageSchema.pre("save", function (next) {
   return next();
 });
 PageSchema.pre("updateOne", function (next) {
-  this.slug = slugify(this.name.slice(0, 30), { lower: true }).concat(
-    "-",
-    this.code
-  );
+  this._update.slug = slugify(this._update.name.slice(0, 30), {
+    lower: true,
+  }).concat("-", this.code);
   return next();
 });
 
