@@ -1,4 +1,5 @@
 import { ForbiddenError, UnauthorizedError } from "routing-controllers";
+import { IUser } from "../../domains/User/User";
 import { Role, Roles } from "./Role";
 
 const AUTH_DATA_REQ_KEY = "__AUTH_DATA_REQ_KEY__";
@@ -19,8 +20,7 @@ export function getAuthDataFromReq(request): AuthData {
 export const getRoleFromName = (name: Roles) => Role[name];
 
 const atLeast = (baseRole: Role) => (compareRole: Role | Roles) =>
-  (typeof compareRole === "string" ? getRoleFromName(compareRole) : compareRole)
-    .level >= baseRole.level;
+  (typeof compareRole === "string" ? getRoleFromName(compareRole) : compareRole).level >= baseRole.level;
 
 export const isRoot = atLeast(Role.ROOT);
 
@@ -29,3 +29,6 @@ export const checkOwnership = (role: Role | Roles, block: () => boolean) => {
     throw new ForbiddenError("Sem permissão");
   }
 };
+
+export const checkUserOwnership = (user: IUser, block: () => boolean) =>
+  checkOwnership(user.permission?.role || user.type, block);
