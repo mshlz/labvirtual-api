@@ -16,7 +16,7 @@ export class AuthService {
             throw new UnauthorizedError('Email / Senha incorretos')
         }
 
-        const token = jwt.sign({ user: user._id, type: user.type }, JWT_SECRET, { expiresIn: extendSession ? '30d' : '24h' })
+        const token = jwt.sign({ user: user._id, type: user.type, permission: user.permission }, JWT_SECRET, { expiresIn: extendSession ? '30d' : '24h' })
 
         return {
             token,
@@ -24,13 +24,14 @@ export class AuthService {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                type: user.type
+                type: user.type,
+                permission: user.permission,
             }
         }
     }
 
     public async register(data: IUser, userType: UserType) {
-        const result = await userService.create(data, userType)
+        const result = await userService.create(data, userType, { role: "STUDENT" })
 
         const code = await getNanoIdAsync(6, { onlyNumbers: true })
         const activationToken = await tokenService.createToken('ACCOUNT_CONFIRM', code, result._id)

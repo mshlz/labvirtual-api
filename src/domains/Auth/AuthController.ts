@@ -4,6 +4,7 @@ import { fromRule } from '../../utils/helpers'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { tokenService } from '../Token/TokenService'
+import { UserType } from '../User/User'
 import { authService } from './AuthService'
 import rules from './validation/rules'
 
@@ -18,7 +19,7 @@ export class AuthController {
     @Post('register')
     @Validate(rules.onRegister)
     public async register(@Body() data: any): Promise<ApiResponse> {
-        const userType = data.type === 'teacher' ? 'TEACHER' : 'STUDENT'
+        const userType: UserType = data.type === 'teacher' ? 'TEACHER' : 'STUDENT'
         delete data.type
 
         return success(await authService.register(data, userType))

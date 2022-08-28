@@ -5,6 +5,9 @@ export class Role {
 
     static STUDENT = new Role('STUDENT', 10, 'STUDENT')
     static TEACHER = new Role('TEACHER', 50, 'TEACHER')
-    static ADMIN = new Role('ADMIN', 100, 'ADMIN')
+    static MODERATOR = new Role('MODERATOR', 80, 'ADMIN')
+    static ROOT = new Role('ROOT', 100, 'ADMIN')
     static SYS = new Role('SYS', 1000, 'ADMIN')
 }
+
+export type Roles = Exclude<keyof typeof Role, 'prototype'>
