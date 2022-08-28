@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken'
-import { NotFoundError, UnauthorizedError } from 'routing-controllers'
+import { ForbiddenError, NotFoundError, UnauthorizedError } from 'routing-controllers'
 import { JWT_SECRET } from '../../config/env'
 import { EmailService } from '../../services/EmailService'
+import { isRoot } from '../../utils/auth/utils'
 import { BadRequestError } from '../../utils/http/responses'
 import { getNanoIdAsync } from '../../utils/nanoid'
+import { subjectService } from '../Subject/SubjectService'
 import { tokenService } from '../Token/TokenService'
 import { IUser, User, UserType } from '../User/User'
 import { userService } from '../User/UserService'
@@ -125,6 +127,19 @@ export class AuthService {
         }
 
         return !!user
+    }
+
+    public async checkOwnCmplx(user: IUser, data: { disciplineIds?: string[], subjectIds?: string[] }) {
+        if (!isRoot(user.permission.role)) {
+            const authorizedId = user.permission.disciplineId
+
+            if (data.disciplineIds && data.disciplineIds.some(v => v != authorizedId)) {
+                throw new ForbiddenError("sem permissão para esta disciplina")
+            }
+            if (data.subjectIds && (await subjectService.getDisciplineIds(data.subjectIds)).some(v => v != authorizedId)) {
+                throw new ForbiddenError("sem permissão para este assunto")
+            }
+        }    
     }
 }
 

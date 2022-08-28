@@ -1,6 +1,6 @@
 import { ForbiddenError, UnauthorizedError, UseBefore } from "routing-controllers"
 import { Role } from "./Role"
-import { getAuthDataFromReq } from "./utils"
+import { getAuthDataFromReq, getRoleFromName } from "./utils"
 
 export function Authorized(role?: Role, strictType?: boolean) {
     return UseBefore((req, res, next) => {
@@ -9,7 +9,7 @@ export function Authorized(role?: Role, strictType?: boolean) {
         if (!authData) {
             throw new UnauthorizedError('You must sign in')
         } else {
-            const roleLocal = Role[authData.role]
+            const roleLocal = getRoleFromName(authData.role)
 
             if (
                 typeof role === 'undefined' ||
