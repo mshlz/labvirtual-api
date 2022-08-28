@@ -64,7 +64,7 @@ export class ClassMaterialService extends BaseResourceService<IClassMaterial> {
       .populate("author", "id name")
       .populate("topic", "id name")
       .populate({
-        path: "ref.subjects",
+        path: "refs.subjects",
         select: "id name icon discipline",
         populate: {
           path: "discipline",
