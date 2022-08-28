@@ -1,9 +1,9 @@
 import { model } from 'mongoose'
-import { BaseSchema } from '../Base/BaseSchema'
+import { BaseSchema, BaseSchemaInterface } from '../Base/BaseSchema'
 import { IClass } from '../Class/Class'
 import mongoosePaginator from '../../utils/database/mongoose-paginator'
 
-export interface IClassTopic {
+export interface IClassTopic extends BaseSchemaInterface {
     name: string
     class: IClass | string
 }

@@ -8,6 +8,7 @@ import { Validate } from "../../utils/validator/Validator";
 import { IClass } from "../Class/Class";
 import { classService } from "../Class/ClassService";
 import { IUser } from "../User/User";
+import { IClassTopic } from "./ClassTopic";
 import { classTopicService } from "./ClassTopicService";
 import rules from "./validation/rules";
 
@@ -50,7 +51,8 @@ export class ClassTopicController {
     @Param("id") id: string,
     @UserFromSession() user: IUser
   ): Promise<ApiResponse> {
-    const klass: IClass = await classService.get(data.classId);
+    const topic: IClassTopic = await classTopicService.get(id);
+    const klass: IClass = await classService.get(topic.class.toString());
     checkUserOwnership(user, () => klass.teacher === user._id);
 
     return success(await classTopicService.update(id, data));

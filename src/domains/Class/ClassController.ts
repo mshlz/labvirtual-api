@@ -5,6 +5,7 @@ import { checkUserOwnership } from "../../utils/auth/utils";
 import { UserFromSession } from "../../utils/decorators/UserFromSession";
 import { success } from "../../utils/http/responses";
 import { Validate } from "../../utils/validator/Validator";
+import { classMaterialService } from "../ClassMaterial/ClassMaterialService";
 import { classTopicService } from "../ClassTopic/ClassTopicService";
 import { IUser } from "../User/User";
 import { Class, IClass } from "./Class";
@@ -40,6 +41,11 @@ export class ClassController {
   @Get(":id/topics")
   public async getTopics(@Param("id") id: string): Promise<ApiResponse> {
     return success(await classTopicService.getFromClasses([id]));
+  }
+
+  @Get(":id/materials")
+  public async getMaterials(@Param("id") id: string): Promise<ApiResponse> {
+    return success(await classMaterialService.getFromClassId(id));
   }
 
   @Get(":id/people")
