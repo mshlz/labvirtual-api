@@ -5,6 +5,7 @@ import { checkUserOwnership } from "../../utils/auth/utils";
 import { UserFromSession } from "../../utils/decorators/UserFromSession";
 import { success } from "../../utils/http/responses";
 import { Validate } from "../../utils/validator/Validator";
+import { classTopicService } from "../ClassTopic/ClassTopicService";
 import { IUser } from "../User/User";
 import { Class, IClass } from "./Class";
 import { classEnrollmentService } from "./ClassEnrollmentService";
@@ -34,6 +35,11 @@ export class ClassController {
   @Get(":id")
   public async getOne(@Param("id") id: string): Promise<ApiResponse> {
     return success(await classService.get(id));
+  }
+
+  @Get(":id/topics")
+  public async getTopics(@Param("id") id: string): Promise<ApiResponse> {
+    return success(await classTopicService.getFromClasses([id]));
   }
 
   @Get(":id/people")
