@@ -1,13 +1,12 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
-import { Authorized } from '../../utils/auth'
+import { Authorized, Role } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { simultatorService } from './SimulatorService'
 import rules from './validation/rules'
 
 @JsonController('/simulators/')
-@Authorized()
 export class SimulatorController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
@@ -28,6 +27,7 @@ export class SimulatorController {
 
     @Post()
     @Validate(rules.onCreate)
+    @Authorized(Role.MODERATOR)
     public async create(@Body() data: any): Promise<ApiResponse> {
         return success(await simultatorService.create(data))
     }
@@ -46,11 +46,13 @@ export class SimulatorController {
 
     @Post(':id')
     @Validate(rules.onUpdate)
+    @Authorized(Role.MODERATOR)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await simultatorService.update(id, data))
     }
 
     @Delete(':id')
+    @Authorized(Role.MODERATOR)
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await simultatorService.delete(id))
     }

@@ -1,6 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
-import { Authorized } from '../../utils/auth'
+import { Authorized, Role } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { questionService } from './QuestionService'
@@ -44,6 +44,7 @@ export class QuestionController {
     }
 
     @Delete(':id')
+    // @Authorized(Role.MODERATOR)
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await questionService.delete(id))
     }

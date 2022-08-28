@@ -4,10 +4,9 @@ import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { videosService } from './VideoService'
 import rules from './validation/rules'
-import { Authorized } from '../../utils/auth'
+import { Authorized, Role } from '../../utils/auth'
 
 @JsonController('/videos/')
-@Authorized()
 export class VideoController {
     @Get()
     public async list(@QueryParams() query): Promise<ApiResponse> {
@@ -28,6 +27,7 @@ export class VideoController {
 
     @Post()
     @Validate(rules.onCreate)
+    @Authorized(Role.MODERATOR)
     public async create(@Body() data: any): Promise<ApiResponse> {
         return success(await videosService.create(data))
     }
@@ -46,11 +46,13 @@ export class VideoController {
 
     @Post(':id')
     @Validate(rules.onUpdate)
+    @Authorized(Role.MODERATOR)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await videosService.update(id, data))
     }
 
     @Delete(':id')
+    @Authorized(Role.MODERATOR)
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await videosService.delete(id))
     }

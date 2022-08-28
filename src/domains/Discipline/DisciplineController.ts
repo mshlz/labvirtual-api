@@ -1,6 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
-import { Authorized } from '../../utils/auth'
+import { Authorized, Role } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { disciplineService } from './DisciplineService'
@@ -27,20 +27,20 @@ export class DisciplineController {
 
     @Post()
     @Validate(rules.onCreate)
-    @Authorized()
+    @Authorized(Role.ROOT)
     public async create(@Body() data: any): Promise<ApiResponse> {
         return success(await disciplineService.create(data))
     }
 
     @Post(':id')
     @Validate(rules.onUpdate)
-    @Authorized()
+    @Authorized(Role.ROOT)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await disciplineService.update(id, data))
     }
 
     @Delete(':id')
-    @Authorized()
+    @Authorized(Role.ROOT)
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await disciplineService.delete(id))
     }

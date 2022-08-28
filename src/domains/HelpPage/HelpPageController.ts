@@ -1,6 +1,6 @@
 import { Body, Delete, Get, JsonController, Param, Post, QueryParams } from 'routing-controllers'
 import { ApiResponse } from '../../interfaces/ApiResponse'
-import { Authorized } from '../../utils/auth'
+import { Authorized, Role } from '../../utils/auth'
 import { success } from '../../utils/http/responses'
 import { Validate } from '../../utils/validator/Validator'
 import { pageService } from './HelpPageService'
@@ -32,7 +32,7 @@ export class HelpPageController {
 
     @Post()
     @Validate(rules.onCreate)
-    @Authorized()
+    @Authorized(Role.MODERATOR)
     public async create(@Body() data: any): Promise<ApiResponse> {
         return success(await pageService.create(data))
     }
@@ -45,13 +45,13 @@ export class HelpPageController {
 
     @Post(':id')
     @Validate(rules.onUpdate)
-    @Authorized()
+    @Authorized(Role.MODERATOR)
     public async update(@Body() data: any, @Param('id') id: string): Promise<ApiResponse> {
         return success(await pageService.update(id, data))
     }
 
     @Delete(':id')
-    @Authorized()
+    @Authorized(Role.MODERATOR)
     public async delete(@Param('id') id: string): Promise<ApiResponse> {
         return success(await pageService.delete(id))
     }
