@@ -53,7 +53,7 @@ export class AdminUserController {
     @Body() data: any,
     @UserFromSession() user: IUser
   ): Promise<ApiResponse> {
-    const password = getNanoId(6);
+    const password = "123123" ||getNanoId(6);
     const teacher = await userService.create({ ...data, password }, "TEACHER", {
       role: "TEACHER",
       disciplineId: data.disciplineId,
